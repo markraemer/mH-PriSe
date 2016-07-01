@@ -1,0 +1,30 @@
+adb shell pm list packages
+==> lists package names of installed devices
+
+adb devicesw
+==> lists connected devices
+
+adb shell pm path com.example.someapp
+==> Get path to package
+
+adb pull /data/app/com.example.someapp.apk /tmp
+==> Get apk from device
+
+apktool d com.example.a.apk
+==> decompile dex code, makes Manifest readable
+
+
+ES File Explorer gives path to all installed apps
+Paid apps might reside in /mnt/asec
+aapt l -a CutePuppiesWallpaper.apk ==> Lists Manifest 
+
+
+python androsim.py -i ~/APKs/Twins/de.esymetric.dailyCalorieBalance-1.apk ~/APKs/Twins/de.esymetric.dailyCalorieBalancePRO-1.apk -d > /tmp/o.txt -e "Lcom/actionbarsherlock/|Lcom/amazon/" > /tmp/o.txt 
+
+
+
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore my_application.apk alias_name
+
+Vgl. http://developer.android.com/tools/publishing/app-signing.html
