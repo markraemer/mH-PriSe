@@ -13,7 +13,7 @@ sys.path.append("/home/labits/androguard")
 from androguard.core.bytecodes import apk
 from androguard.core.bytecodes import dvm
 sys.path.append("/home/labits/svn/kk")
-from db_functions import *
+from medapps.db_functions import *
 # from androguard.decompiler.dad import decompile
 
 # Settings

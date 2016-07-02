@@ -13,7 +13,7 @@ from androguard.core.bytecodes import dvm
 # from androguard.decompiler.dad import decompile
 from collections import defaultdict
 sys.path.append("/home/labits/svn/kk")
-from db_functions import *
+from medapps.db_functions import *
 
 SOURCE_DIR = "/home/labits/APKs/Twins/"
 
