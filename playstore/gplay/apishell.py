@@ -13,8 +13,6 @@ import code
 
 from googleplay import GooglePlayAPI
 
-from gplay.config import *
-
 api = GooglePlayAPI(ANDROID_ID)
 api.login(GOOGLE_LOGIN, GOOGLE_PASSWORD, AUTH_TOKEN)
 code.interact(BANNER, local=locals())

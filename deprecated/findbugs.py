@@ -7,12 +7,10 @@
 
 
 import os
-import commands
-import re
 import sys
-import time
+
 sys.path.append("/home/labits/svn/kk")
-from db_functions import *
+from deprecated.db_functions import *
 
 #BASE_DIR = "/home/labits/svn/kk/twins/analysis/"
 BASE_DIR= "/home/labits/svn/kk/twins/analysis/"

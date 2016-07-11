@@ -6,15 +6,15 @@
 # and puts them in a HTML file and in analysis dir
 
 import os
-import commands
 import re
-import zipfile
 import sys
+import zipfile
+
 ##sys.path.append("./HTML.py-0.04")
 ##import HTML
 import datetime
 sys.path.append("/home/labits/svn/kk")
-from db_functions import *
+from deprecated.db_functions import *
 
 # Settings
 APK_DIR = "/home/labits/APKs/Twins/" # dir where apks reside

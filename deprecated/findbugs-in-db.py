@@ -4,14 +4,11 @@
 # The script searches XML Findbugs reports and
 # puts them in DB
 
-import os
-import commands
 import re
-import zipfile
 import sys
-import datetime
+
 sys.path.append("/home/labits/svn/kk")
-from db_functions import *
+from deprecated.db_functions import *
 
 # Settings
 APK_DIR = "/home/labits/APKs/Twins/" # dir where apks reside

@@ -1,18 +1,18 @@
-import subprocess
+import os
 
-path = "/media/exthdd/tools/Android/apps/"
-appsList = "../apps_tools.prop"
+from playstore import apps_download
 
-def installapk(appId):
-    #subprocess.call(["adb","devices"])
-    subprocess.call(["adb", "-s" , "037dc31f093b0ada", "install", "-r", "-d", path + appId + "/" + appId + ".apk"])
+import ConfigParser
 
-#def wipeDevice():
-# subprocess.call(["adb", "-s" , "037dc31f093b0ada", "shell", "am", "broadcast", "-a", "android.intent.action.MASTER_CLEAR"])
+# initialize configuration parser
+config = ConfigParser.RawConfigParser()
+config.read('config.prop')
 
-#apps_download.downloadApps(path,appsList)
-with open(appsList) as f:
-    for appId in f:
-        print(appId.strip())
-        #wipeDevice()
-        installapk(appId.strip())
+# get configuration parameter
+path = config.get('tools','apk.fs.dir')
+appList = config.get('tools','apk.tools.list')
+deviceId = config.get('dev','dev.adb.id')
+
+# downloads apps from playstore
+def do(install):
+    apps_download.downloadApps(path, appList, install, False)

@@ -13,6 +13,9 @@ import re
 from db.AppPerm import AppPerm
 from db.Apps import Apps
 
+import logging.config
+logging.config.fileConfig('logging.conf')
+logger = logging.getLogger('runner')
 
 RPDIR = "/tmp/"
 KIND = "fad"
@@ -25,18 +28,19 @@ def apkInfo():
 
     # get all apks which are linked in the database
     # will come with [0] package [1] path_to_apk
-    appsList = Apps().getApks()
+    appsList = Apps().getAllApps()
 
     for apk in appsList:
         app = Apps()
         app.filesize = os.path.getsize(apk[1])
         app.package = apk[0]
-
+        app.id = apk[2]
+        logger.info("%s analyzing manifest", app.package)
         # run android build tool aapt and write into temp file
         f = open(RPDIR + "dummy_file", "w")
         command = "aapt dump badging '" + apk[1] + "' > " + RPDIR + "dummy_file"
         s = os.system(command)
-        print  command, " Status: ", s
+        logger.debug("%s, %s", [command, s])
         f.close()
 
         # read information from temp file
@@ -78,4 +82,4 @@ def apkInfo():
                 perm.insert()
                 #break
 
-        app.update()
+        app.upsert()

@@ -4,14 +4,10 @@
 # The script extracts crypto classes from smale
 
 import os
-import commands
-import re
-import MySQLdb
 import sys
-import datetime
-import zipfile
+
 sys.path.append("/home/labits/svn/kk")
-from db_functions import *
+from deprecated.db_functions import *
 #sys.path.append("/home/labits/androguard")
 #from androguard.core.bytecodes import apk
 #from androguard.core.bytecodes import dvm

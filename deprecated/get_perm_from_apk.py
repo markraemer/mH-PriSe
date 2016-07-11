@@ -3,17 +3,13 @@
 
 # The script extracts the permissions from APK and stores them in DB
 
-import os
-import commands
-import re
-import MySQLdb
 import sys
-import datetime
+
 sys.path.append("/home/labits/androguard")
 from androguard.core.bytecodes import apk
-from androguard.core.bytecodes import dvm
+
 sys.path.append("/home/labits/svn/kk")
-from medapps.db_functions import *
+from deprecated.db_functions import *
 # from androguard.decompiler.dad import decompile
 
 # Settings

@@ -5,18 +5,11 @@
 # and stores the pripols data in the DB
 # Sources: http://www.pythonforbeginners.com/python-on-the-web/how-to-use-urllib2-in-python/
 
-import os
-import commands
-import re
-import MySQLdb
 import sys
-import datetime
-import zipfile
 import urllib2
-import urllib
 from bs4 import BeautifulSoup
 sys.path.append("/home/labits/svn/kk")
-from db_functions import *
+from deprecated.db_functions import *
 
 # Settings
 ANALYSIS_DIR = "/home/labits/svn/kk/twins/analysis/" # dir where apks reside

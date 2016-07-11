@@ -4,17 +4,23 @@
 # stores basic app information from playstore in database
 
 # Do not remove
+import time
+
 GOOGLE_LOGIN = GOOGLE_PASSWORD = AUTH_TOKEN = None
 
 import os
 
 import pdfkit
 
+from apk import manageOnDevice
+
 from db.Apps import Apps
+from db.AppDetails import AppDetails
 from db.Pripol import Pripol
-from gplay.config import *
-from gplay.googleplay import GooglePlayAPI
-from gplay.helpers import sizeof_fmt
+from playstore.gplay.googleplay import GooglePlayAPI
+from playstore.gplay.helpers import sizeof_fmt
+
+import ConfigParser
 
 # initialize configuration parser
 config = ConfigParser.RawConfigParser()
@@ -34,7 +40,7 @@ def sreenshotplaystore(appId, path):
         print("Issue taking screenshot... Proceeding \r")
 
 # downloads the apk file
-def downloadapk(appId, path, app, pripol):
+def downloadapk(appId, path, app, pripol, writeToDb):
     # Connect
     api = GooglePlayAPI(ANDROID_ID)
     api.login(GOOGLE_LOGIN, GOOGLE_PASSWORD, AUTH_TOKEN)
@@ -51,12 +57,32 @@ def downloadapk(appId, path, app, pripol):
     app.path_to_apk = path + appId + "/" + appId + ".apk"
     app.type = doc.offer[0].offerType
     vc = doc.details.appDetails.versionCode
+    # more details from appstore page
+    appdetail = AppDetails()
+    appdetail.package = doc.docid
+    appdetail.asin
+    appdetail.category = doc.details.appDetails.appCategory[0]
+    appdetail.company = doc.creator
+    appdetail.mom
+    appdetail.popularity = doc.details.appDetails.numDownloads
+    if doc.offer[0].formattedAmount == 'Free':
+        appdetail.price = 0.0
+    else:
+        appdetail.price = float(doc.offer[0].formattedAmount)
+    appdetail.pripol = doc.annotations.privacyPolicyUrl
+    appdetail.rating = doc.aggregateRating.starRating
+    if doc.details.appDetails.uploadDate != '':
+        appdetail.release_date = time.strftime("%Y-%m-%d",time.strptime(doc.details.appDetails.uploadDate, "%d %b %Y"))
+    appdetail.title = doc.title
+    appdetail.version = doc.details.appDetails.versionString
+    appdetail.upsert()
 
     # Download
     print "Downloading %s..." % sizeof_fmt(doc.details.appDetails.installationSize),
     try:
-        app.insert()
-        pripol.insert()
+        if writeToDb:
+            app.upsert()
+            pripol.upsert()
         data = api.download(appId, vc, app.type)
         open(app.path_to_apk, "wb").write(data)
 
@@ -64,7 +90,7 @@ def downloadapk(appId, path, app, pripol):
         print(appId + " is not available from play store")
 
 
-def downloadApps(pathToStore, appListFile):
+def downloadApps(pathToStore, appListFile, install, writeToDb):
     with open(appListFile) as f:
         for appId in f:
             print(appId.strip())
@@ -73,5 +99,7 @@ def downloadApps(pathToStore, appListFile):
                 app = Apps()
                 pripol = Pripol()
                 sreenshotplaystore(appId.strip(),pathToStore)
-                downloadapk(appId.strip(), pathToStore, app, pripol)
+                downloadapk(appId.strip(), pathToStore, app, pripol, writeToDb)
+                if install:
+                    manageOnDevice.installapk(app)
 

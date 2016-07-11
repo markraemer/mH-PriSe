@@ -2,19 +2,16 @@
 # KK, January 2015
 # The script checks if an APK used Proguard obfuscation and outputs a probability
 
-import os
-import commands
 import re
-import MySQLdb
 import sys
-import datetime
+
 sys.path.append("/home/labits/androguard")
 from androguard.core.bytecodes import apk
 from androguard.core.bytecodes import dvm
 # from androguard.decompiler.dad import decompile
 from collections import defaultdict
 sys.path.append("/home/labits/svn/kk")
-from db_functions import *
+from deprecated.db_functions import *
 
 
 # Loop over all methods and check if obfuscated

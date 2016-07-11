@@ -79,7 +79,7 @@ def do():
 
         # get all apks which are linked in the database
         # will come with [0] package [1] path_to_apk
-        appsList = Apps().getApks()
+        appsList = Apps().getAllApps()
 
         for apk in appsList:
             app = Apps()

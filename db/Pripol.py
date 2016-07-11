@@ -1,4 +1,14 @@
-# MK Jun 2016
+# MK Jul 2016
+
+import logging.config
+logging.config.fileConfig('logging.conf')
+logger = logging.getLogger('runner')
+
+import sys
+from copy import copy
+
+reload(sys)
+sys.setdefaultencoding('latin-1')
 
 from db.helper import *
 
@@ -21,11 +31,83 @@ class Pripol():
     quotes = None
     comments = None
 
-    def insert(self):
-        sql = "INSERT INTO pripol (package, URL, NumWords, NumChars, version, Country, AP, SSP," \
-            "OP, PSP, IPP, intUsage, 3rdPartyStorage, Merger, 3rdPartyForward, quotes, comments)" \
-              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+    def upsert(self):
 
-        data_pripol = [self.package, self.URL, self.NumWords, self.NumChars, self.version, self.Country, self.AP, self.SSP, self.OP, self.PSP, self.IPP, self.intUsage, self.thirdPartyStorage, self.Merger, self.thirdPartyForward, self.quotes, self.comments]
+        sql = []
+        data = []
+        if self.package is not None:
 
-        cur.execute(sql, data_pripol)
+            data.append(self.package)
+            sql.append("package= '%s' ")
+        if self.URL is not None:
+
+            data.append(self.URL)
+            sql.append("URL=  '%s' ")
+        if self.NumWords <> 0:
+
+            data.append(self.NumWords)
+            sql.append("NumWords=  '%s' ")
+        if self.NumChars <> 0:
+
+            data.append(self.NumChars)
+            sql.append("NumChars=  '%s' ")
+        if self.version is not None:
+
+            data.append(self.version)
+            sql.append("version=  '%s' ")
+        if self.Country is not None:
+
+            data.append(self.Country)
+            sql.append("Country=  '%s' ")
+        if self.AP is not None:
+
+            data.append(self.AP)
+            sql.append("AP=  '%s' ")
+        if self.SSP is not None:
+
+            data.append(self.SSP)
+            sql.append("SSP=  '%s' ")
+        if self.OP is not None:
+
+            data.append(self.OP)
+            sql.append("OP=  '%s' ")
+        if self.PSP is not None:
+
+            data.append(self.PSP)
+            sql.append("PSP=  '%s' ")
+        if self.IPP is not None:
+
+            data.append(self.IPP)
+            sql.append("IPP=  '%s' ")
+        if self.intUsage is not None:
+
+            data.append(self.intUsage)
+            sql.append("intUsage=  '%s' ")
+        if self.thirdPartyStorage is not None:
+
+            data.append(self.thirdPartyStorage)
+            sql.append("3rdPartyStorage=  '%s' ")
+        if self.Merger is not None:
+
+            data.append(self.Merger)
+            sql.append("Merger=  '%s' ")
+        if self.thirdPartyForward is not None:
+
+            data.append(self.thirdPartyForward)
+            sql.append("3rdPartyForward=  '%s' ")
+        if self.quotes is not None:
+
+            data.append(self.quotes)
+            sql.append("quotes=  '%s' ")
+        if self.comments is not None:
+
+            data.append(self.comments)
+            sql.append("comments=  '%s' ")
+
+        upsert = ["INSERT INTO pripol SET", ", ".join(sql),"on duplicate key update", ", ".join(sql),";"]
+        data.extend(copy(data))
+        sql = " ".join(upsert)
+        query =  sql % tuple(data)
+
+        logger.debug(query)
+        cur.execute(query)

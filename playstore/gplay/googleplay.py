@@ -144,7 +144,7 @@ class GooglePlayAPI(object):
                                     "X-DFE-Device-Id": self.androidId,
                                     "X-DFE-Client-Id": "am-android-google",
                                     #"X-DFE-Logging-Id": self.loggingId2, # Deprecated?
-                                    "User-Agent": "Android-Finsky/3.7.13 (api=3,versionCode=8013013,sdk=16,device=crespo,hardware=herring,product=soju)",
+                                    "User-Agent": "Android-Finsky/6.7.13.E-all%20%5B0%5D%202920566 (api=3,versionCode=80671300,sdk=23,device=hammerhead,hardware=hammerhead,product=hammerhead,platformVersionRelease=6.0.1,model=Nexus%205,buildId=MOB30M,isWideScreen=0)",
                                     "X-DFE-SmallestScreenWidthDp": "320",
                                     "X-DFE-Filter-Level": "3",
                                     "Accept-Encoding": "",
@@ -268,7 +268,7 @@ class GooglePlayAPI(object):
         }
 
         headers = {
-                   "User-Agent" : "AndroidDownloadManager/4.1.1 (Linux; U; Android 4.1.1; Nexus S Build/JRO03E)",
+                   "User-Agent" : "AndroidDownloadManager/6.0.1 (Linux; U; Android 6.0.1; Nexus 5 Build/MOB30M)",
                    "Accept-Encoding": "",
                   }
         response = requests.get(url, headers=headers, cookies=cookies, verify=False)

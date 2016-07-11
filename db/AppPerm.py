@@ -19,7 +19,7 @@ class AppPerm():
             row = cur.fetchone()
             id = row[0]
 
-        sql = "insert into app_perm (id_app, id_perm) values (%s, %s);"
+        sql = "insert ignore into app_perm (id_app, id_perm) values (%s, %s);"
         perm_data = (self.id_app,id)
 
         cur.execute(sql,perm_data)
