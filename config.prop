@@ -30,3 +30,7 @@ expdroid.script.file=/opt/explaindroid/explaindroid
 
 [traffic]
 traffic.ipdatabase.url=http://ipinfo.io/
+
+[experiments]
+mitmproxy.keylog.file=/media/exthdd/recording/sslkeylogfile.txt
+experiment.rec.path=/media/exthdd/experiments

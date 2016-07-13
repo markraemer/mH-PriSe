@@ -56,3 +56,19 @@ class Experiments():
         cur.execute(sql)
         rows = cur.fetchall()
         return rows
+
+    @staticmethod
+    def getExperimentLogForPackag(package):
+        sql = "SELECT id, package, time, test_case, log_folder FROM experiments where package='{}';".format(package)
+        cur.execute(sql)
+        rows = list(cur.fetchall())
+        return rows
+
+    @staticmethod
+    def getMissingDocumentation(package):
+        sql = """select tc.name as test_case, group_concat(ts.name) as test_steps, count(ts.name) as num from experiment_test_steps ts join experiment_test_cases tc on ts.test_case = tc.name
+            where ts.name not in (select test_step from experiments_details ed join experiments e on ed.experiment = e.id where
+            e.package='{}')  group by tc.name;""".format(package)
+        cur.execute(sql)
+        rows = list(cur.fetchall())
+        return rows

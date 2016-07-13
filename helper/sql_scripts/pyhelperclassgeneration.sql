@@ -1,0 +1,2 @@
+SELECT group_concat(COLUMN_NAME, ' = None' SEPARATOR '\n') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'mhealth_apps' AND TABLE_NAME = 'am';
+SELECT group_concat('if self.',COLUMN_NAME,' is not None:\n','\t data.append(self.',COLUMN_NAME,')\n\t sql.append("',COLUMN_NAME,'=\'%s\'")\n' SEPARATOR ' ') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'mhealth_apps' AND TABLE_NAME = 'am';

@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # MK Jul 2016
 # runner application file
 import os
@@ -9,8 +10,9 @@ logger = logging.getLogger('runner')
 from playstore import apps_companion,apps_tools
 from apk import extractBaseInfo, runMallodroid, manageOnDevice, signAnalysis, apkHelper, runEviCheck, runExplainDroid, checkObfuscation
 from onDevice import runDrozer,addonDetector
-
+from helper import checkLogFolders, experimentation
 from traffic import trafficAnalysis
+
 
 
 from db.Location import Location
@@ -38,8 +40,11 @@ logger.info("Starting ...")
 #checkObfuscation.do()
 
 ### Traffic Analysis
-trafficAnalysis.do(False) # true will automatically generate traffic maps
+#trafficAnalysis.do(False) # true will automatically generate traffic maps
 
+## helper
+#checkLogFolders.doAll()
 
+experimentation.start()
 
 logger.info("... finished")

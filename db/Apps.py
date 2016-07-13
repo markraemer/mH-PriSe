@@ -85,3 +85,10 @@ class Apps():
         rows = cur.fetchall()
         return [x[0] for x in rows]
 
+    @classmethod
+    def getPackages(cls):
+        sql = "select package from apps;"
+        cur.execute(sql)
+        rows = cur.fetchall()
+        return [x[0] for x in rows]
+
