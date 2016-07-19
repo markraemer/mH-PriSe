@@ -14,24 +14,24 @@ from db.Malware import Malware
 # initialize configuration parser
 import ConfigParser
 
+from multiprocessing import Process
+
 config = ConfigParser.RawConfigParser()
 config.read('config.prop')
 # get configuration parameter
-eviscript = config.get('evicheck', 'evi.script.file')
-evipolicy = config.get('evicheck', 'evi.script.file')
+eviscript = config.get('tools', 'evi.script.file')
+evipolicy = config.get('tools', 'evi.script.file')
 path = config.get('apps', 'apps.fs.dir')
 
 
 # ////////////////////////////
 
-def do():
-    # get all apks which are linked in the database
-    # will come with [0] package [1] path_to_apk
-    appsList = Apps().getAllApps()
+def evicheck(appslist):
+
 
     p_result = re.compile(".*Policy valid!.*")
 
-    for apk in appsList:
+    for apk in appslist:
         app = Apps()
         app.path_to_apk = apk[1]
         app.package = apk[0]
@@ -70,3 +70,24 @@ def do():
                 malware.result = "invalid"
                 logger.info("%s is not valid", app.package)
             malware.insert()
+
+def chunkify(lst,n):
+    return [ lst[i::n] for i in xrange(n) ]
+
+
+def do():
+    # get all apks which are linked in the database
+    # will come with [0] package [1] path_to_apk
+    appsList = Apps().getAllApps()
+
+    threads = []
+    for list in chunkify(appsList, 4):
+        p = Process(target=evicheck, args=(list,))
+        logger.info("starting mallodroid thread %s", p)
+        threads += [p]
+        p.start()
+
+
+
+    for t in threads:
+        t.join()

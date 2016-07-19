@@ -10,10 +10,12 @@
 
 import os
 import re
+import subprocess
+
 from db.AppPerm import AppPerm
 from db.Apps import Apps
 
-import logging.config
+import logging
 logging.config.fileConfig('logging.conf')
 logger = logging.getLogger('runner')
 
@@ -38,9 +40,10 @@ def apkInfo():
         logger.info("%s analyzing manifest", app.package)
         # run android build tool aapt and write into temp file
         f = open(RPDIR + "dummy_file", "w")
-        command = "aapt dump badging '" + apk[1] + "' > " + RPDIR + "dummy_file"
-        s = os.system(command)
-        logger.debug("%s, %s", [command, s])
+        cmd = ["aapt", "dump", "badging", "'",apk[1], "'", ">", RPDIR + "dummy"]
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        logger.debug("%s, %s", cmd, out)
         f.close()
 
         # read information from temp file

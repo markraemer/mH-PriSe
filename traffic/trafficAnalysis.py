@@ -10,6 +10,8 @@ import os
 from db.Experiments import Experiments
 from db.Location import Location
 
+from helper.experimentation import *
+
 # initialize configuration parser
 config = ConfigParser.RawConfigParser()
 config.read('config.prop')
@@ -20,12 +22,13 @@ import matplotlib.pyplot as plt
 
 # extract URLs and run script which will insert them into database
 def extractURLs(exp):
+    print exp
     command = ["mitmdump", "-q", "-ns", "\"traffic/mitm_extractURLs.py", exp.package, exp.test_case, "'" + str(exp.time) + "'" + "\"", "-r", "\"" + exp.log_folder + "/mitm.out\"", "-w", "/dev/null"]
     cmd = " ".join(command)
     logger.debug(cmd)
     os.system(cmd)
 
-def generateMap(exp):
+def prep_generate_map(exp):
     logger.info("%s generating traffic map", exp.package)
     rows = Location.getCoordinates(exp.test_case, exp.package, exp.time)
     lats = [float(x[0]) for x in rows]
@@ -51,7 +54,7 @@ def generate_map(output, lats=[], lons=[], wesn=None):
     plt.savefig(output, dpi=300, bbox_inches='tight')
     plt.close()
 
-def do(createMap):
+def do(createMap=False):
     experimentLog = Experiments.getExperimentLog()
     for log in experimentLog:
         exp = Experiments()
@@ -63,7 +66,28 @@ def do(createMap):
         logger.debug("%s extracting URLs", log[0])
         extractURLs(exp)
         if createMap:
-            generateMap(exp)
+            prep_generate_map(exp)
 
+def for_rec_experiment(context, createMap=False):
+    if not context.package:
+        package = choosePackage()
+        if package == "quit":
+            return
+    else:
+        package = context.package
+    record, index = select_recorded_experiment(package)
+    print record
+    if record:
+        exp = Experiments()
+        exp.id = record[0]
+        exp.package = record[1]
+        exp.time = record[2]
+        exp.test_case = record[3]
+        exp.log_folder = record[4]
+        logger.info("%s %s %s analyzing", record[0], record[1], record[2])
+        logger.debug("%s extracting URLs", record[0])
+        extractURLs(exp)
+        if createMap:
+            prep_generate_map(exp)
 
 

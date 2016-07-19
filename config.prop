@@ -1,10 +1,8 @@
 [apps]
 apps.fs.dir=/media/exthdd/apps/
 apps.companion.list=apps_companion.prop
-
-[tools]
-apk.fs.dir=/media/exthdd/tools/Android/apps/
-apk.tools.list=apps_tools.prop
+tool.apk.fs.dir=/media/exthdd/tools/Android/apps/
+tool.apk.tools.list=apps_tools.prop
 
 [db]
 db.host=localhost
@@ -15,18 +13,16 @@ db.name=mhealth_apps
 [dev]
 dev.adb.id=
 
-[googleplay]
-gp.mail_password=Abcd1234!
-gp.android_ID=3d2bad007022f8f1
-gp.mail_address=uoe.proj.1@googlemail.com
-gp.language=en_GB
-
-[evicheck]
+[tools]
+gplay.mail_password=Abcd1234!
+gplay.android_ID=3d2bad007022f8f1
+gplay.mail_address=uoe.proj.1@googlemail.com
+gplay.language=en_GB
 evi.script.file=/opt/EviCheck-0.1/EviCheck.py
 evi.policy.file=/opt/EviCheck-0.1/examples/policies/pol22.pol
-
-[explaindroid]
 expdroid.script.file=/opt/explaindroid/explaindroid
+jdgui.jar=/opt/jd-gui/jd-gui-1.4.0.jar
+zipalign.path=/usr/share/android-sdk/build-tools/19.1.0/zipalign
 
 [traffic]
 traffic.ipdatabase.url=http://ipinfo.io/

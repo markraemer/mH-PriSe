@@ -1,3 +1,8 @@
+import logging.config
+from copy import copy
+logging.config.fileConfig('logging.conf')
+logger = logging.getLogger('db')
+
 from db.helper import *
 
 class Drozer():
@@ -7,6 +12,26 @@ class Drozer():
     permission = None
 
     def insert(self):
-        sql = "insert into app_attsuf (package, type_name, class, permission) values (%s, %s, %s, %s);"
-        data = (self.package, self.type_name, self.class_name, self.permission)
-        cur.execute(sql, data)
+        data=[]
+        sql=[]
+
+        if self.package is not None:
+            data.append(self.package)
+            sql.append("package=%s")
+        if self.type_name is not None:
+            data.append(self.type_name)
+            sql.append("type_name=%s")
+        if self.class_name is not None:
+            data.append(self.class_name)
+            sql.append("class=%s")
+        if self.permission is not None:
+            data.append(self.permission)
+            sql.append("permission=%s")
+
+            upsert = ["INSERT INTO app_attsuf SET", ", ".join(sql), "on duplicate key update", ", ".join(sql), ";"]
+            data.extend(copy(data))
+            sql = " ".join(upsert)
+            query = sql % tuple(data)
+
+            logger.debug(query)
+            cur.execute(sql,tuple(data))

@@ -21,6 +21,9 @@ class Experiments():
     comment = None
     log_folder = None
 
+    def __str__(self):
+        return "{}, {}, {}, {} ,{}, {}".format(self.id, self.package, self.time, self.test_case, self.comment, self.log_folder)
+
     def upsert(self):
         data = []
         sql = []
@@ -66,9 +69,10 @@ class Experiments():
 
     @staticmethod
     def getMissingDocumentation(package):
-        sql = """select tc.name as test_case, group_concat(ts.name) as test_steps, count(ts.name) as num from experiment_test_steps ts join experiment_test_cases tc on ts.test_case = tc.name
+        sql = """select tc.name as test_case, group_concat(ts.name separator '\n') as test_steps, count(ts.name) as num from experiment_test_steps ts join experiment_test_cases tc on ts.test_case = tc.name
             where ts.name not in (select test_step from experiments_details ed join experiments e on ed.experiment = e.id where
             e.package='{}')  group by tc.name;""".format(package)
         cur.execute(sql)
         rows = list(cur.fetchall())
         return rows
+

@@ -7,9 +7,9 @@ logger = logging.getLogger('runner')
 
 import subprocess
 import re
-from db.Certificates import Certificates
 from db.Apps import Apps
 from db.Malware import Malware
+from multiprocessing import Process
 
 # initialize configuration parser
 import ConfigParser
@@ -17,16 +17,13 @@ import ConfigParser
 config = ConfigParser.RawConfigParser()
 config.read('config.prop')
 # get configuration parameter
-expdroidscript = config.get('explaindroid', 'expdroid.script.file')
+expdroidscript = config.get('tools', 'expdroid.script.file')
 path = config.get('apps', 'apps.fs.dir')
 
 
 # ////////////////////////////
 
-def do():
-    # get all apks which are linked in the database
-    # will come with [0] package [1] path_to_apk
-    appsList = Apps().getAllApps()
+def explaindroid(appsList):
 
     p_result = re.compile(".*LABEL: BENIGN.*")
 
@@ -70,3 +67,24 @@ def do():
                 logger.info("%s is malicious", app.package)
 
             malware.insert()
+
+def chunkify(lst,n):
+    return [ lst[i::n] for i in xrange(n) ]
+
+
+def do():
+    # get all apks which are linked in the database
+    # will come with [0] package [1] path_to_apk
+    appsList = Apps().getAllApps()
+
+    threads = []
+    for list in chunkify(appsList, 4):
+        p = Process(target=explaindroid, args=(list,))
+        logger.info("starting mallodroid thread %s", p)
+        threads += [p]
+        p.start()
+
+
+
+    for t in threads:
+        t.join()

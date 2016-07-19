@@ -2,7 +2,7 @@
 
 import logging.config
 logging.config.fileConfig('logging.conf')
-logger = logging.getLogger('runner')
+logger = logging.getLogger('db')
 
 import sys
 from copy import copy
@@ -60,3 +60,14 @@ class URL():
 
         logger.debug(query)
         cur.execute(sql, tuple(data))
+
+    @staticmethod
+    def getHostnamesByPackage(package):
+        sql = "select distinct hostname from urls where package=%s"
+        data = [package]
+        cur.execute(sql,data)
+        query =  sql % tuple(data)
+
+        logger.debug(query)
+        rows = cur.fetchall()
+        return [x[0] for x in rows]

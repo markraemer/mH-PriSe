@@ -52,7 +52,8 @@ def request(ctx, flow):
     url.url=flow.request.url
     url.test_case = test_case
     url.time = time
-    url.hostname = flow.request.headers['host'] # host name
+    if 'host' in flow.request.headers:
+        url.hostname = flow.request.headers['host'] # host name
 
     url.upsert()
 

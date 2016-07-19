@@ -14,7 +14,7 @@ from db.helper import *
 
 class ExperimentsDetails():
 
-    id = None
+
     experiment = None
     test_step = None
     comment = None
@@ -26,16 +26,16 @@ class ExperimentsDetails():
 
         if self.experiment is not None:
             data.append(self.experiment)
-            sql.append("experiment='%s'")
+            sql.append("experiment=%s")
         if self.test_step is not None:
             data.append(self.test_step)
-            sql.append("test_step='%s'")
+            sql.append("test_step=%s")
         if self.comment is not None:
             data.append(self.comment)
-            sql.append("comment='%s'")
+            sql.append("comment=%s")
         if self.rating is not None:
             data.append(self.rating)
-            sql.append("rating='%s'")
+            sql.append("rating=%s")
 
         upsert = ["INSERT INTO experiments_details SET", ", ".join(sql),"on duplicate key update", ", ".join(sql),";"]
         data.extend(copy(data))
@@ -43,5 +43,5 @@ class ExperimentsDetails():
         query =  sql % tuple(data)
 
         logger.debug(query)
-        cur.execute(query)
-        self.id = cur.lastrowid
+        cur.execute(sql, tuple(data))
+

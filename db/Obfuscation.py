@@ -16,6 +16,7 @@ class Obfuscation():
     package = None
     score = None
     native_score = None
+    time = None
 
     def insert(self):
         data = []
@@ -40,3 +41,10 @@ class Obfuscation():
 
         logger.debug(query)
         cur.execute(query)
+
+    @classmethod
+    def getPackages(cls):
+        sql = "select distinct package from obfuscation;"
+        cur.execute(sql)
+        rows = cur.fetchall()
+        return [x[0] for x in rows]

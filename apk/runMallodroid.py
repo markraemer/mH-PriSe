@@ -136,7 +136,7 @@ def do():
     appsList = Apps().getAllApps()
 
     threads = []
-    for list in chunkify(appsList, 2):
+    for list in chunkify(appsList, 4):
         p = Process(target=callMallodroid, args=(list,))
         logger.info("starting mallodroid thread %s", p)
         threads += [p]

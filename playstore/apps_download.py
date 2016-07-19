@@ -12,13 +12,14 @@ import os
 
 import pdfkit
 
-from apk import manageOnDevice
+from onDevice import deviceHelper
 
 from db.Apps import Apps
 from db.AppDetails import AppDetails
 from db.Pripol import Pripol
 from playstore.gplay.googleplay import GooglePlayAPI
 from playstore.gplay.helpers import sizeof_fmt
+from playstore.gplay.config import *
 
 import ConfigParser
 
@@ -56,6 +57,7 @@ def downloadapk(appId, path, app, pripol, writeToDb):
     app.package = doc.docid
     app.path_to_apk = path + appId + "/" + appId + ".apk"
     app.type = doc.offer[0].offerType
+
     vc = doc.details.appDetails.versionCode
     # more details from appstore page
     appdetail = AppDetails()
@@ -75,7 +77,9 @@ def downloadapk(appId, path, app, pripol, writeToDb):
         appdetail.release_date = time.strftime("%Y-%m-%d",time.strptime(doc.details.appDetails.uploadDate, "%d %b %Y"))
     appdetail.title = doc.title
     appdetail.version = doc.details.appDetails.versionString
-    appdetail.upsert()
+    if writeToDb:
+        app.upsert()
+        appdetail.upsert()
 
     # Download
     print "Downloading %s..." % sizeof_fmt(doc.details.appDetails.installationSize),
@@ -101,5 +105,15 @@ def downloadApps(pathToStore, appListFile, install, writeToDb):
                 sreenshotplaystore(appId.strip(),pathToStore)
                 downloadapk(appId.strip(), pathToStore, app, pripol, writeToDb)
                 if install:
-                    manageOnDevice.installapk(app)
+                    deviceHelper.installapk(app)
 
+
+def downloadApp(pathToStore, package, install, writeToDb):
+
+    # create app object
+    app = Apps()
+    pripol = Pripol()
+    sreenshotplaystore(package.strip(),pathToStore)
+    downloadapk(package.strip(), pathToStore, app, pripol, writeToDb)
+    if install:
+        deviceHelper.installapk(app)

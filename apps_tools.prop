@@ -1,14 +1,11 @@
-# Anti Malware apps not used
-#com.denper.addonsdetector
-#com.snoopwall.privacyapp
-#com.bitdefender.clueful
-#com.antivirus
-#com.avast.android.mobilesecurity
-#com.wsandroid.suite
-#com.palindrome.ph
-#
-# capturing tools used
 jp.co.taosoftware.android.packetcapture
 com.googlecode.droidwall.free
 com.rsupport.mvagent
 com.rsupport.mobizen.cn
+com.evozi.deviceid
+com.symantec.mobilesecurity
+com.facebook.katana
+com.twitter.android
+com.saurik.substrate
+stericson.busybox
+com.denper.addonsdetector

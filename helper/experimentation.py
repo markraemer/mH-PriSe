@@ -11,6 +11,7 @@ import subprocess
 import datetime
 import time
 import json
+from terminaltables import AsciiTable
 
 from pick import pick
 
@@ -31,16 +32,7 @@ deviceId = config.get("dev","dev.adb.id")
 keylogfile = config.get("experiments","mitmproxy.keylog.file")
 
 ######################
-actions=["start recording", "display recording", "document", "missing documentation", "quit"]
-## output formatting
-FN='\e[0m' # normal
-FB='\e[1m' # bold
-FU='\e[4m' # underlined
-FBL='\e[5m' # blink
-FRED='\e[91m' # red
-FGRE='\e[92m' # green
-FYEL='\e[93m' # yellow
-FBLU='\e[94m' # blue
+actions=["start", "document", "missing"]
 ######################
 
 def multiline_input(title):
@@ -53,51 +45,53 @@ def multiline_input(title):
 
 def show_missing_documentation(package):
     missingDocs = Experiments.getMissingDocumentation(package)
-    for doc in missingDocs:
-        print "{0:20s}{1}".format(doc[0],doc[1])
+    missingDocs.insert(0, ["test case", "test steps", "#"])
+    table = AsciiTable(missingDocs)
+    table.inner_row_border=True
+    print table.table
     raw_input("TO CONTINUE PRESS ENTER...")
 
-def doc_recorded_test_cases(package):
-
+def select_recorded_experiment(package):
     title = "choose recording"
     recorded = Experiments.getExperimentLogForPackag(package)
     recorded.append("quit")
     record, index = pick(recorded, title)
     if record == "quit":
         return
-    document_test_steps(recorded[index][3], recorded[index][0])
+    else:
+        return recorded[index], index
 
+def doc_recorded_test_cases(package):
+    record, index = select_recorded_experiment(package)
+    if record:
+        exp = Experiments()
+        exp.id = record[0]
+        document_test_steps(record[3], exp)
 
-def review_experiments(package):
+def choose_test_case(package):
     recorded = Experiments.getExperimentLogForPackag(package)
     recorded.append("quit")
+    record, expid = pick(recorded, "choose recording")
+    return record
+
+
+
+def document_test_steps(test_case, exp):
+    print exp
     while True:
-        record, expid = pick(recorded, "choose recording")
-        if record == "quit":
-            return
-        actions = ["network traces","open folder"]
-        action, index = pick(actions,"choose action")
-        if action == actions[1]:
-            cmd = "xdg-open {}".format(record[4])
-            os.system(cmd)
-        elif action == actions[0]:
-            cmd = "gnome-terminal -e 'mitmproxy -r {}/mitm.out'".format(record[4])
-            os.system(cmd)
-
-def document_test_steps(test_case, experiment):
-
-   while True:
         title="select test step"
         steps = TestSteps.getStepsForCase(test_case)
         steps.append("quit")
         step, index = pick(steps,title)
         if step == "quit":
             break
-
+        ts = TestSteps.getByName(step)
+        print ts.short_desc
         ed = ExperimentsDetails()
         ed.comment = multiline_input("Comment")
+        print ts.rating
         ed.rating = multiline_input("Rating")
-        ed.experiment = experiment.id
+        ed.experiment = exp.id
         ed.test_step = step
         ed.upsert()
 
@@ -109,46 +103,52 @@ def select_test_case():
 
     return case
 
-
-def start_recording(package, testcase):
-
-    ts = time.time()
-    st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H:%M:%S')
-
-    app_recordingpath = '/'.join([config.get("experiments","experiment.rec.path"), package, testcase, st])
-    print app_recordingpath
-
-    if not os.path.exists(app_recordingpath):
-        os.makedirs(app_recordingpath)
-
-    timestamp = st.replace('_',' ')
-
-    experiment = Experiments()
-    experiment.package = package
-    experiment.test_case = testcase
-    experiment.log_folder = app_recordingpath
-    experiment.time = timestamp
-    experiment.upsert()
-
+def start_screen_cast(app_recordingpath):
     # start screen recording
     print("recording started - select window for screen cast")
     castfile="{}/screencast.ogv".format(app_recordingpath)
     cmd = "gnome-terminal -e \"recordmydesktop --windowid `xwininfo -display :0 | grep 'id: 0x' | grep -Eo '0x[a-z0-9]+'` -o {}\" --geometry 1x1+0+0".format(castfile)
     os.system(cmd)
 
+def stop_screen_cast():
+    # stop screen recording
+    logger.debug("stopping recording")
+    cmd = "kill -2 `pgrep -a recordmydesktop | awk '{print $1}'`"
+    os.system(cmd)
 
+
+def start_capture_network(app_recordingpath, type="p2w"):
     # start packet capturing PHONE <=> WEB
     fhandle = open("{}/mitm.out".format(app_recordingpath),'w')
     fhandle.close()
-    cmd = "export 'SSLKEYLOGFILE={}' && gnome-terminal -e 'mitmproxy -T --host -w "\
-            "{}/mitm.out' --geometry 80x65+0+0".format(keylogfile,app_recordingpath)
-    os.system(cmd)
+    if type == "p2w": # capture phone to web communication
+        mitmconfig= "-T --host"
+    elif type == "wo": # capture web browser usage
+        mitmconfig= ""
+    else:
+        mitmconfig=""
 
+    cmd = "export 'SSLKEYLOGFILE={}' && gnome-terminal -e 'mitmproxy {} -w "\
+            "{}/mitm.out' --geometry 80x65+0+0".format(keylogfile, mitmconfig, app_recordingpath)
+    os.system(cmd)
 
     # tShark start and send to background
-    cmd = "tshark -i wlan0 -w '{}/tshark.pncap' -o ssl.keylog_file:{} 2> /dev/null  &".format(app_recordingpath, keylogfile) #
+    cmd = "tshark -i wlan0 -w '{}/tshark.pncap' -o ssl.keylog_file:{}  2> /dev/null &".format(app_recordingpath, keylogfile) #
     os.system(cmd)
 
+def stop_capture_network():
+    # stop mitmproxy
+    logger.debug("stopping mitmproxy")
+    cmd = "kill -2 `pgrep -a mitm | awk '{print $1}'`"
+    os.system(cmd)
+
+    # stop recording with tshark
+    logger.debug("stopping packet capture")
+    cmd = "kill -2 `pgrep -a tshark | awk '{print $1}'`"
+    os.system(cmd)
+
+
+def start_capture_phone(package):
     # startup app on phone but with some delay
     cmd = "adb shell 'sleep 2 && monkey -p %s -c android.intent.category.LAUNCHER 1' &" % package
     os.system(cmd)
@@ -158,30 +158,34 @@ def start_recording(package, testcase):
     # restarting bluetooth will create a fresh log file
     cmd = "adb shell \"su -c service call bluetooth_manager 8\"" # off
     os.system(cmd)
-    cmd = "adb shell \"rm  /storage/self/primary/btsnoop_hci.log\""
+    cmd = "adb shell \"rm  /sdcard/btsnoop_hci.log\""
     os.system(cmd)
     cmd = "adb shell \"su -c service call bluetooth_manager 6\""
     os.system(cmd)
 
-    time.sleep(3)
-
-    document_test_steps(testcase, experiment)
-
-    # stop mitmproxy
-    cmd = "kill -2 `pgrep -a mitm | awk '{print $1}'`"
+    # reset logcat
+    cmd = "adb logcat -c" # off
     os.system(cmd)
 
-    # stop screen recording
-    cmd = "kill -2 `pgrep -a recordmydesktop | awk '{print $1}'`"
+def stop_capture_phone(app_recordingpath, package):
+    # copy bluetooth hci log file from phone
+    logger.debug("copying hci bluetooth log")
+    cmd = "adb pull /sdcard/btsnoop_hci.log {}/hci.log".format(app_recordingpath)
     os.system(cmd)
 
-     # copy log file from phone
-    cmd = "adb pull /storage/self/primary/btsnoop_hci.log {}/hci.log".format(app_recordingpath)
+    # retrieve logcat log
+    logger.debug("retrieving logcat logs")
+    cmd = "adb logcat -d -f /sdcard/logcat.log"
     os.system(cmd)
-     # copy app content incl. database from phone
+    cmd = "adb pull /sdcard/logcat.log {}/logcat.log 1> /dev/null 2> /dev/null".format(app_recordingpath)
+    os.system(cmd)
+    cmd = "adb shell \"rm -rf /sdcard/logcat.log\""
+    os.system(cmd)
+
+    # copy app content incl. database from phone
      # this command uses ToyBox which comes with Android 6.0
      # other possibilities would have been BusyBox (cp implementation not as good)
-
+    logger.debug("pulling full appliation backup")
     cmd = "adb shell \"su -c toybox cp -r /data/data/{} /sdcard/app_backups/{}\"".format(package, package)
     os.system(cmd)
     cmd = "adb pull /sdcard/app_backups/{} {}/app_content 1> /dev/null 2> /dev/null".format(package, app_recordingpath)
@@ -190,46 +194,100 @@ def start_recording(package, testcase):
     os.system(cmd)
 
     if raw_input("Clear app data?") == "y":
+        logger.debug("clearing app data")
         cmd = "adb shell pm clear {}".format(package)
         os.system(cmd)
 
     #     adb shell am force-stop $APP
+    logger.debug("stopping app")
     cmd = "adb shell am force-stop {}".format(package)
     os.system(cmd)
 
-    # stop recording with tshark
-    cmd = "kill -2 `pgrep -a tshark | awk '{print $1}'`"
-    os.system(cmd)
+
+def start_recording(context, package, testcase):
+    #TODO organise different tools in functions and map functions to test cases --> recodring depends on test cases
+    experiment = Experiments()
+    ts = time.time()
+    st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H:%M:%S')
+
+    if testcase != "sol_arch":
+        app_recordingpath = '/'.join([config.get("experiments","experiment.rec.path"), package, testcase, st])
+        if not os.path.exists(app_recordingpath):
+            os.makedirs(app_recordingpath)
+        experiment.log_folder = app_recordingpath
+
+    timestamp = st.replace('_',' ')
+
+
+    experiment.package = package
+    experiment.test_case = testcase
+    experiment.time = timestamp
+    experiment.upsert()
+
+    if testcase != "sol_arch":
+        start_screen_cast(app_recordingpath)
+
+        if testcase == "av6_web_application":
+            start_capture_network(app_recordingpath,"wo")
+        else:
+            start_capture_network(app_recordingpath)
+
+            start_capture_phone(package)
+
+        document_test_steps(testcase, experiment)
+
+        stop_capture_network()
+
+        stop_screen_cast()
+
+        if testcase != "av6_web_application":
+            stop_capture_phone(app_recordingpath, package)
 
     experiment.comment = raw_input("Comment?")
     experiment.upsert()
 
-def start():
+def choosePackage():
+    title = 'choose package: '
+    packages = Apps.getPackages()
+    packages.append("quit")
+    package, index = pick(packages, title)
+    return package
 
-    while True:
-        title = 'choose package: '
-        packages = Apps.getPackages()
-        packages.append("quit")
-        package, index = pick(packages, title)
-        if package == "quit":
-            break
-        print "package >>> {}".format(package)
 
-        title = 'choose action: '
-        action, index = pick(actions, title)
+def show_traces(context):
+    if not context.package:
+        package = choosePackage()
+    else:
+        package = context.package
+    if package != "quit":
+        record = choose_test_case(package)
+        if record != "quit":
+            cmd = "gnome-terminal -e 'mitmproxy -r {}/mitm.out'".format(record[4])
+            os.system(cmd)
 
+
+def open_log_folder(context):
+    if not context.package:
+        package = choosePackage()
+    else:
+        package = context.package
+    if package != "quit":
+        record = choose_test_case(package)
+        if record != "quit":
+            cmd = "xdg-open {}".format(record[4])
+            os.system(cmd)
+
+
+def do(action, context=None):
+    if not context.package:
+        package = choosePackage()
+    else:
+        package = context.package
+    if package != "quit":
         if action == actions[0]:
-            print "starting recording"
             case = select_test_case()
-            start_recording(package,case)
+            start_recording(context, package, case)
         elif action == actions[1]:
-            print "showing experiments"
-            review_experiments(package)
-        elif action == actions[2]:
-            print "document test cases"
             doc_recorded_test_cases(package)
-        elif action == actions[3]:
-            print "show missing documentation"
+        elif action == actions[2]:
             show_missing_documentation(package)
-        elif action == actions[4]:
-            break

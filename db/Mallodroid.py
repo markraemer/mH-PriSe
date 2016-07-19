@@ -2,7 +2,7 @@
 
 import logging.config
 logging.config.fileConfig('logging.conf')
-logger = logging.getLogger('runner')
+logger = logging.getLogger('db')
 
 import sys
 from copy import copy

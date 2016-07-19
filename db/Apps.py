@@ -2,7 +2,7 @@
 
 import logging.config
 logging.config.fileConfig('logging.conf')
-logger = logging.getLogger('runner')
+logger = logging.getLogger('db')
 
 import sys
 from copy import copy
@@ -70,6 +70,23 @@ class Apps():
         logger.debug(query)
         cur.execute(query)
         self.id = cur.lastrowid
+
+    @staticmethod
+    def getApp(package):
+        sql = "SELECT label, package, version, versioncode, filesize, path_to_icon, Type, path_to_exports, path_to_apk FROM apps where package=%s;"
+        cur.execute(sql, [package])
+        row = cur.fetchone()
+        app = Apps()
+        app.label = row[0]
+        app.package = row[1]
+        app.version = row[2]
+        app.versioncode = row[3]
+        app.filesize = row[4]
+        app.path_to_icon = row[5]
+        app.type = row[6]
+        app.path_to_exports = row[7]
+        app.path_to_apk = row[8]
+        return app
 
     @classmethod
     def getAllApps(cls):

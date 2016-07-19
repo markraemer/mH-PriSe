@@ -21,9 +21,25 @@ class TestSteps():
     long_desc = None
 
     @staticmethod
+    def getByName(name):
+        sql = "select ts.name, ts.order, ts.test_case, ts.short_desc, ts.long_desc, ts.rating from experiment_test_steps ts where name = '{}';".format(name)
+        cur.execute(sql)
+        row = cur.fetchone()
+        ts = TestSteps()
+        ts.name = row[0]
+        ts.order = row[1]
+        ts.test_case = row[2]
+        ts.short_desc = row[3]
+        ts.long_desc = row[4]
+        ts.rating = row[5]
+        return ts
+
+    @staticmethod
     def getStepsForCase(test_case):
         sql = "select name from experiment_test_steps where test_case='{}';".format(test_case)
         cur.execute(sql)
         rows = cur.fetchall()
         return [x[0] for x in rows]
+
+
 

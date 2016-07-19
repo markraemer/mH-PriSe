@@ -18,3 +18,4 @@ db = MySQLdb.connect(host=config.get('db','db.host'),
 global cur
 cur = db.cursor()
 db.autocommit(True)
+

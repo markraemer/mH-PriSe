@@ -11,6 +11,7 @@ from collections import defaultdict
 
 from db.Apps import Apps
 from db.Obfuscation import Obfuscation
+from multiprocessing import Process
 
 import logging.config
 logging.config.fileConfig('logging.conf')
@@ -56,21 +57,22 @@ def obfuscation_score(dct):
 
 
 
-def do():
-    apps = Apps.getAllApps()
-    #f2p = filename2package()
+def checkObfuscation(appsList):
 
     counter = 1
 
+    existingRecords = Obfuscation.getPackages()
 
-    for app in apps:
+    for app in appsList:
+        if app[0] in existingRecords:
+            continue
         obf = Obfuscation()
         obf.package = app[0]
         dct = defaultdict(list)  # freh dict for each apk
         ndct = defaultdict(list)  # freh dict for each apk
-        app[0] = app[0].replace(".", "/")
+        package = app[0].replace(".", "/")
 
-        logger.info(str(counter) + " of " + str(len(apps)) + ": Checking Obfuscation of file " + app[1])
+        logger.info(str(counter) + " of " + str(len(appsList)) + ": Checking Obfuscation of file " + app[1])
         counter += 1
 
         try:
@@ -99,11 +101,11 @@ def do():
             dct[cl].append(cclass)
         # print dct
         os = obfuscation_score(dct)
-        logger.info("Total Obfuscation score " + os)
+        logger.info("Total Obfuscation score " + str(os))
 
         # now delete all non-native entries from dct and put them in ndct
         for i in dct:
-            if app[0] in i:
+            if package in i:
                 print "IN", i
                 ndct[i] = dct[i]
 
@@ -112,7 +114,29 @@ def do():
 
         else:
             nos = -1
-        logger.info("Native Obfuscation score" + nos)
+        logger.info("Native Obfuscation score" + str(nos))
         obf.native_score = nos
         obf.score = os
         obf.insert()
+
+
+def chunkify(lst,n):
+    return [ lst[i::n] for i in xrange(n) ]
+
+
+def do():
+    # get all apks which are linked in the database
+    # will come with [0] package [1] path_to_apk
+    appsList = Apps().getAllApps()
+
+    threads = []
+    for list in chunkify(appsList, 4):
+        p = Process(target=checkObfuscation, args=(list,))
+        logger.info("starting mallodroid thread %s", p)
+        threads += [p]
+        p.start()
+
+
+
+    for t in threads:
+        t.join()
