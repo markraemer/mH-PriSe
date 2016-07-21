@@ -18,7 +18,7 @@ from subprocess import call
 from playstore import apps_companion,apps_tools
 from apk import extractBaseInfo, runMallodroid, signAnalysis, apkHelper, runEviCheck, runExplainDroid, checkObfuscation
 from onDevice import runDrozer,addonDetector,deviceHelper
-from helper import checkLogFolders, experimentation
+from helper import checkLogFolders, experimentation, experiment_overview
 from traffic import trafficAnalysis
 from pick import pick
 from bash import bashHelper
@@ -71,6 +71,7 @@ menu_tree = {
             "4 - DYNAMIC analysis": (change_package, ['dynamic']), # should choose package first
             "5 - data analysis": (change_package, ['post']),  # should choose packge -> test case first
             "6 - tools and helper": ('menu', ['tools']),
+            "7 - show results": (experiment_overview.do, []),
             "quit": None
         },
         'title': "Main Menu",

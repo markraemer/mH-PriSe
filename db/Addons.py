@@ -28,3 +28,11 @@ class Addons():
         sql.append(";")
         logger.debug(" ".join(sql))
         cur.execute(" ".join(sql))
+
+    @staticmethod
+    def getAddons(package):
+        sql = "SELECT name, addon_type FROM addons where package=%s;"
+        cur.execute(sql, [package])
+        rows = cur.fetchall()
+        field_names = [i[0] for i in cur.description]
+        return rows, field_names

@@ -72,8 +72,16 @@ class Apps():
         self.id = cur.lastrowid
 
     @staticmethod
+    def getRow(package):
+        sql = "SELECT * FROM apps where package=%s;"
+        cur.execute(sql, [package])
+        row = cur.fetchone()
+        field_names = [i[0] for i in cur.description]
+        return row, field_names
+
+    @staticmethod
     def getApp(package):
-        sql = "SELECT label, package, version, versioncode, filesize, path_to_icon, Type, path_to_exports, path_to_apk FROM apps where package=%s;"
+        sql = "SELECT label, package, version, versioncode, filesize, path_to_apk FROM apps where package=%s;"
         cur.execute(sql, [package])
         row = cur.fetchone()
         app = Apps()

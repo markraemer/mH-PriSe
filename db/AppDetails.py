@@ -75,3 +75,11 @@ class AppDetails():
 
         logger.debug(query)
         cur.execute(sql, tuple(data))
+
+    @staticmethod
+    def getDetails(package):
+        sql = "SELECT * FROM am where package=%s;"
+        cur.execute(sql, [package])
+        rows = cur.fetchall()
+        field_names = [i[0] for i in cur.description]
+        return rows, field_names

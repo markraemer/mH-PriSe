@@ -50,3 +50,11 @@ class Certificates():
         sql.append(";")
         logger.debug(" ".join(sql))
         cur.execute(" ".join(sql))
+
+    @staticmethod
+    def getCerts(package):
+        sql = "SELECT * FROM certificates where package=%s;"
+        cur.execute(sql, [package])
+        rows = cur.fetchall()
+        field_names = [i[0] for i in cur.description]
+        return rows, field_names

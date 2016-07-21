@@ -23,3 +23,11 @@ class AppPerm():
         perm_data = (self.id_app,id)
 
         cur.execute(sql,perm_data)
+
+    @staticmethod
+    def getPerm(package):
+        sql = "SELECT * FROM mhealth_apps.view_app_perm where package=%s;"
+        cur.execute(sql, [package])
+        rows = cur.fetchall()
+        field_names = [i[0] for i in cur.description]
+        return rows, field_names

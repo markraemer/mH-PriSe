@@ -45,3 +45,11 @@ class ExperimentsDetails():
         logger.debug(query)
         cur.execute(sql, tuple(data))
 
+    @staticmethod
+    def getExpermimentDetails(experiment):
+        sql = "SELECT * FROM experiments_details where experiment='{}' order by test_step;".format(experiment)
+        cur.execute(sql)
+        rows = list(cur.fetchall())
+        field_names = [i[0] for i in cur.description]
+        return rows, field_names
+

@@ -62,7 +62,7 @@ class Experiments():
 
     @staticmethod
     def getExperimentLogForPackag(package):
-        sql = "SELECT id, package, time, test_case, log_folder FROM experiments where package='{}';".format(package)
+        sql = "SELECT id, package, time, test_case, log_folder, comment FROM experiments where package='{}';".format(package)
         cur.execute(sql)
         rows = list(cur.fetchall())
         return rows
@@ -75,4 +75,12 @@ class Experiments():
         cur.execute(sql)
         rows = list(cur.fetchall())
         return rows
+
+    @staticmethod
+    def getExperiments(package):
+        sql = "SELECT id, package, time, test_case, log_folder, comment FROM experiments where package='{}' order by test_case;".format(package)
+        cur.execute(sql)
+        rows = list(cur.fetchall())
+        field_names = [i[0] for i in cur.description]
+        return rows, field_names
 
