@@ -118,9 +118,9 @@ def create_doc(file_name, details=False):
 
 
 
-    file = open("{}.html".format(file_name),'w')
+    file = open("doc/{}.html".format(file_name),'w')
     tree.write(file, pretty_print=True, encoding="us-ascii", xml_declaration=None, method="html")
-    pdfkit.from_file("{}.html".format(file_name),"{}.pdf".format(file_name))
+    pdfkit.from_file("doc/{}.html".format(file_name),"doc/{}.pdf".format(file_name))
 
 
 def do():
