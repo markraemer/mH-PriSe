@@ -29,6 +29,12 @@ def getRating(test_step):
     rows = cur.fetchall()
     return rows
 
+def getTestCaseComments(test_case):
+    sql = "select package, group_concat(comment separator '\n') from experiments where test_case=%s group by package order by package;"
+    cur.execute(sql, [test_case])
+    rows = cur.fetchall()
+    return rows
+
 def getSumRatings(test_case):
     sql = "select package, sum(rating) from experiment_overview where test_case=%s group by package order by package;"
     cur.execute(sql, [test_case])

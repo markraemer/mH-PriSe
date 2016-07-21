@@ -22,16 +22,15 @@ class TestSteps():
 
     @staticmethod
     def getByName(name):
-        sql = "select ts.name, ts.order, ts.test_case, ts.short_desc, ts.long_desc, ts.rating from experiment_test_steps ts where name = '{}';".format(name)
+        sql = "select ts.name, ts.test_case, ts.short_desc, ts.long_desc, ts.rating from experiment_test_steps ts where name = '{}';".format(name)
         cur.execute(sql)
         row = cur.fetchone()
         ts = TestSteps()
         ts.name = row[0]
-        ts.order = row[1]
-        ts.test_case = row[2]
-        ts.short_desc = row[3]
-        ts.long_desc = row[4]
-        ts.rating = row[5]
+        ts.test_case = row[1]
+        ts.short_desc = row[2]
+        ts.long_desc = row[3]
+        ts.rating = row[4]
         return ts
 
     @staticmethod

@@ -131,6 +131,7 @@ menu_tree = {
             "5 - stop all 3rd party apps": (deviceHelper.stopAllApps,None),
             "6 - kill running tools (if program crashed previously)": None,
             "7 - validate log folder structure": (checkLogFolders,[]),
+            "8 - export tables to csv": (bashHelper.dump_tables, []),
             "quit": None
         },
         'title': "tools and helper",

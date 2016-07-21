@@ -23,9 +23,15 @@ def create_doc(file_name, details=False):
     doctype = "<!DOCTYPE html><html></html>"
     tree = etree.parse(StringIO(doctype))
     header = etree.SubElement(tree.getroot(), "head")
+
+    if details:
+        meta = etree.SubElement(header, "meta")
+        meta.set("name","pdfkit-orientation")
+        meta.set("content", "Landscape")
+
     link = etree.SubElement(header, "link")
     link.set("rel","stylesheet")
-    link.set("href", "helper/style.css")
+    link.set("href", "../helper/style.css")
     body = etree.SubElement(tree.getroot(), "body")
     script = etree.SubElement(body, "script")
     script.set("src", "https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/modernizr-2.7.1.js")
@@ -34,10 +40,35 @@ def create_doc(file_name, details=False):
     cases = ExperimentsOverview.getTestCases()
 
     for case in cases:
+        if details:
+            table = etree.SubElement(body, "table")
+            table.set("class", "table")
+            table.set("width", "1024px")
+            caption = etree.SubElement(table,"caption")
+            h1 = etree.SubElement(caption, "h1")
+            h1.text = case[0]
+            thead = etree.SubElement(table, "thead")
+            comments = ExperimentsOverview.getTestCaseComments(case[0])
 
+            tr = etree.SubElement(thead, "tr")
+            th = etree.SubElement(tr, "th")
+            th.text = "package"
+            th = etree.SubElement(tr, "th")
+            th.text = "comment"
+            for comment in comments:
+                if comment[0] in packages:
+                    tr = etree.SubElement(table, "tr")
+                    th = etree.SubElement(tr, "th")
+                    th.text = comment[0]
+                    th.set("class","row-header")
+                    td = etree.SubElement(tr, "td")
+                    td.text = comment[1]
 
         table = etree.SubElement(body, "table")
-        table.set("class","table table-header-rotated")
+        if not details:
+            table.set("class","table table-header-rotated")
+        else:
+            table.set("class", "table")
         caption = etree.SubElement(table,"caption")
         h1 = etree.SubElement(caption, "h1")
         h1.text = case[0]
@@ -115,12 +146,20 @@ def create_doc(file_name, details=False):
         td2 = etree.SubElement(tr, "td")
         td2.text = comment[1]
 
-
-
+    options = {
+        'page-size': 'Letter',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+        'encoding': "UTF-8",
+        'no-outline': None,
+        'orientation': 'Landscape'
+    }
 
     file = open("doc/{}.html".format(file_name),'w')
     tree.write(file, pretty_print=True, encoding="us-ascii", xml_declaration=None, method="html")
-    pdfkit.from_file("doc/{}.html".format(file_name),"doc/{}.pdf".format(file_name))
+    pdfkit.from_file("doc/{}.html".format(file_name),"doc/{}.pdf".format(file_name), options=options)
 
 
 def do():

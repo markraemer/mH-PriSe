@@ -1,8 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head><link rel="stylesheet" href="helper/style.css"></head>
+<head>
+<meta name="pdfkit-orientation" content="Landscape">
+<link rel="stylesheet" href="../helper/style.css">
+</head>
 <body>
-<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/modernizr-2.7.1.js"></script><table class="table table-header-rotated">
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/modernizr-2.7.1.js"></script><table class="table" width="1024px">
+<caption><h1>av1_data_trans</h1></caption>
+<thead><tr>
+<th>package</th>
+<th>comment</th>
+</tr></thead>
+<tr>
+<th class="row-header">com.activ8rlives.mobile</th>
+<td>executing attacks on traffic to reveal that most of the messages are not authenticated at all; also passwords are transmitted in clear text
+aggregated from teststeps</td>
+</tr>
+<tr>
+<th class="row-header">com.hapiconnect</th>
+<td>replay tampering and injection tested
+aggregated from teststeps</td>
+</tr>
+<tr>
+<th class="row-header">com.medm.medmwt.diary</th>
+<td>ran some attacks against the data in transmission
+aggregated from teststeps</td>
+</tr>
+<tr>
+<th class="row-header">com.stabxtom.thomson</th>
+<td>tried to tamper with traffic by manipulating requests and stealing the session to use it to inject further measurements; however data couldnt be synchroniyed back into the application (even after deleting all app data the app doesnt intially download all dataa from server; previous measurements are simply lost
+aggregated from teststeps</td>
+</tr>
+<tr>
+<th class="row-header">com.withings.wiscale2</th>
+<td>aggregated from teststeps
+tampered with data and executed some replay attacks; data is not validated and can cause server errors if weight to high</td>
+</tr>
+</table>
+<table class="table">
 <caption><h1>av1_data_trans</h1></caption>
 <thead><tr>
 <th>test step</th>
@@ -65,6 +100,31 @@
 <p>replay attacks are possible within the same session &#13;
 session is requested based on a once which is used to generate a hash &#13;
 the server is able to use that hash to identify the user and sends user information including a valid session key</p>
+</td>
+</tr>
+<tr>
+<th class="row-header">av1_ssl</th>
+<td style="font-size: small;">not using SSL: 0 / using SSL: 1</td>
+<td style="font-size: small;">is using SSL</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>using SSL</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
+<p>no SSL</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>using SSL</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
+<p>no SSL</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>using SSL</p>
 </td>
 </tr>
 <tr>
@@ -146,15 +206,42 @@ the server is able to use that hash to identify the user and sends user informat
 <td></td>
 <td></td>
 <td></td>
-<td>0.0</td>
 <td>1.0</td>
-<td>4.0</td>
-<td>0.0</td>
 <td>1.0</td>
+<td>5.0</td>
+<td>0.0</td>
+<td>2.0</td>
 </tr>
 </tbody>
 </table>
-<table class="table table-header-rotated">
+<table class="table" width="1024px">
+<caption><h1>av2_mobile_device</h1></caption>
+<thead><tr>
+<th>package</th>
+<th>comment</th>
+</tr></thead>
+<tr>
+<th class="row-header">com.activ8rlives.mobile</th>
+<td>used some basic app functions to generate data</td>
+</tr>
+<tr>
+<th class="row-header">com.hapiconnect</th>
+<td>investigating the device</td>
+</tr>
+<tr>
+<th class="row-header">com.medm.medmwt.diary</th>
+<td>looking for data leakage</td>
+</tr>
+<tr>
+<th class="row-header">com.stabxtom.thomson</th>
+<td>found way too much information in the device logs</td>
+</tr>
+<tr>
+<th class="row-header">com.withings.wiscale2</th>
+<td>run the app to synchronize and export app data to disk for further investigation</td>
+</tr>
+</table>
+<table class="table">
 <caption><h1>av2_mobile_device</h1></caption>
 <thead><tr>
 <th>test step</th>
@@ -230,7 +317,42 @@ bluetooth connection management is shown in full including MAC addresses which a
 </tr>
 </tbody>
 </table>
-<table class="table table-header-rotated">
+<table class="table" width="1024px">
+<caption><h1>av3_mobile_app</h1></caption>
+<thead><tr>
+<th>package</th>
+<th>comment</th>
+</tr></thead>
+<tr>
+<th class="row-header">com.activ8rlives.mobile</th>
+<td>setting up user account and checking password policies</td>
+</tr>
+<tr>
+<th class="row-header">com.hapiconnect</th>
+<td>registered user and setup app
+change passwords and analysed traffic</td>
+</tr>
+<tr>
+<th class="row-header">com.medm.medmwt.diary</th>
+<td>registered user and provided some basic data</td>
+</tr>
+<tr>
+<th class="row-header">com.stabxtom.thomson</th>
+<td>ran regestration test steps
+paired the scale with the app
+tried some input validations, injection, tampering by manually adding data
+check the password change process and turns out that an attacker can change the victims password at any point in time after the victim opened the app and the attacker was listening to the traffic and hence able to steal the current password hash
+password change via email link on not secure website</td>
+</tr>
+<tr>
+<th class="row-header">com.withings.wiscale2</th>
+<td>setting up the withings scale and saw some weird input validations (details in test cases)
+some manual entry added and uploaded to withings server
+aggregated from teststeps
+password change and export tests</td>
+</tr>
+</table>
+<table class="table">
 <caption><h1>av3_mobile_app</h1></caption>
 <thead><tr>
 <th>test step</th>
@@ -655,7 +777,34 @@ also terms and conditions but both links are pointing to the same webpage1</p>
 </tr>
 </tbody>
 </table>
-<table class="table table-header-rotated">
+<table class="table" width="1024px">
+<caption><h1>av4_third_party</h1></caption>
+<thead><tr>
+<th>package</th>
+<th>comment</th>
+</tr></thead>
+<tr>
+<th class="row-header">com.activ8rlives.mobile</th>
+<td>leakage of data to xamarin</td>
+</tr>
+<tr>
+<th class="row-header">com.hapiconnect</th>
+<td>investigating data leakage</td>
+</tr>
+<tr>
+<th class="row-header">com.medm.medmwt.diary</th>
+<td>no data leakage found</td>
+</tr>
+<tr>
+<th class="row-header">com.stabxtom.thomson</th>
+<td>data leakage to third party investigated</td>
+</tr>
+<tr>
+<th class="row-header">com.withings.wiscale2</th>
+<td>data leakage</td>
+</tr>
+</table>
+<table class="table">
 <caption><h1>av4_third_party</h1></caption>
 <thead><tr>
 <th>test step</th>
@@ -706,7 +855,37 @@ d</p>
 </tr>
 </tbody>
 </table>
-<table class="table table-header-rotated">
+<table class="table" width="1024px">
+<caption><h1>av5_sensor_device</h1></caption>
+<thead><tr>
+<th>package</th>
+<th>comment</th>
+</tr></thead>
+<tr>
+<th class="row-header">com.activ8rlives.mobile</th>
+<td>connected scale and did some measurements</td>
+</tr>
+<tr>
+<th class="row-header">com.hapiconnect</th>
+<td>paired scale but the app ended up in some loop sending the same request infintely
+running pairing and data collection test cases</td>
+</tr>
+<tr>
+<th class="row-header">com.medm.medmwt.diary</th>
+<td>paired device and did some measurements</td>
+</tr>
+<tr>
+<th class="row-header">com.stabxtom.thomson</th>
+<td>collected some data by weighting and sending data to web server</td>
+</tr>
+<tr>
+<th class="row-header">com.withings.wiscale2</th>
+<td>first tried to setup scale using bluetooth but didnt work; then tried via wifi and would work; traffic from scale to withings webserver is http only; possibly can be exploited for replay attacks as well; maybe firmware update will defeat the http vulnerability as the scale partly communicates via https
+collected data from scale and successfully uploaded to withings; added a new user within the same account, but withings offers as well to associate the same scale with different accounts; replay attacks are likely to be successful
+manipulated request for firmware and got link to update.. firmware can be downloaded</td>
+</tr>
+</table>
+<table class="table">
 <caption><h1>av5_sensor_device</h1></caption>
 <thead><tr>
 <th>test step</th>
@@ -806,7 +985,37 @@ d</p>
 </tr>
 </tbody>
 </table>
-<table class="table table-header-rotated">
+<table class="table" width="1024px">
+<caption><h1>av6_web_application</h1></caption>
+<thead><tr>
+<th>package</th>
+<th>comment</th>
+</tr></thead>
+<tr>
+<th class="row-header">com.activ8rlives.mobile</th>
+<td>basic ellaboration of the web page
+user registration via web page</td>
+</tr>
+<tr>
+<th class="row-header">com.hapiconnect</th>
+<td>data input tests and testing manipulation
+investigated web page</td>
+</tr>
+<tr>
+<th class="row-header">com.medm.medmwt.diary</th>
+<td>explored web access
+tested for csrf vulnerability</td>
+</tr>
+<tr>
+<th class="row-header">com.stabxtom.thomson</th>
+<td>no web page found which would come with the solution</td>
+</tr>
+<tr>
+<th class="row-header">com.withings.wiscale2</th>
+<td>investigate if account can be delete with spoofed information --&gt; account can't be deleted with stolen session id from unencrypted sensor device communication</td>
+</tr>
+</table>
+<table class="table">
 <caption><h1>av6_web_application</h1></caption>
 <thead><tr>
 <th>test step</th>
