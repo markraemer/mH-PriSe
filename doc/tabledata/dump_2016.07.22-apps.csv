@@ -1,4 +1,4 @@
-"id","label","package","version","versioncode","filesize","timestamp","path_to_icon","Type","path_to_exports","path_to_internal_data","comment","id","label","package","version","versioncode","filesize","timestamp","path_to_icon","path_to_apk","comment",
+"id","label","package","version","versioncode","filesize","timestamp","path_to_icon","path_to_apk","comment",
 196,"UP® – Smart Coach for Health","com.jawbone.upopen","4.19.0","51630",58439808,"2016-07-01 19:56:29","res/drawable-hdpi-v4/app_icon.png","/media/exthdd/apps/com.jawbone.upopen/com.jawbone.upopen.apk",\N
 197,"Polar Flow - Activity & Sports","fi.polar.polarflow","3.1","31000",31116077,"2016-07-01 19:56:33","res/drawable-mdpi-v4/polar_flow_app_icon.png","/media/exthdd/apps/fi.polar.polarflow/fi.polar.polarflow.apk",\N
 198,"movnow plus","com.veclink.movnow.healthy_q2","3.7.9","379",14266063,"2016-07-01 19:56:38","res/drawable-hdpi/ic_launcher.png","/media/exthdd/apps/com.veclink.movnow.healthy_q2/com.veclink.movnow.healthy_q2.apk",\N

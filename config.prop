@@ -23,6 +23,7 @@ evi.policy.file=/opt/EviCheck-0.1/examples/policies/pol22.pol
 expdroid.script.file=/opt/explaindroid/explaindroid
 jdgui.jar=/opt/jd-gui/jd-gui-1.4.0.jar
 zipalign.path=/usr/share/android-sdk/build-tools/19.1.0/zipalign
+path.doc.tabledata=doc/tabledata/
 
 [traffic]
 traffic.ipdatabase.url=http://ipinfo.io/

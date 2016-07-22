@@ -5,6 +5,7 @@ logging.config.fileConfig('logging.conf')
 logger = logging.getLogger('runner')
 
 from db import ExperimentsOverview
+from db.AppPerm import AppPerm
 
 import lxml
 import pdfkit

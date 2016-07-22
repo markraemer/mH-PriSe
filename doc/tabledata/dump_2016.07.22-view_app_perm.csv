@@ -56,7 +56,7 @@ com.garmin.android.apps.connectmobile.permission.RECEIVE_BROADCASTS\
 android.permission.DOWNLOAD_WITHOUT_NOTIFICATION\
 android.permission.READ_CALENDAR\
 android.permission.WRITE_CALL_LOG\
-com.garmin.android.apps.connectmobile.permission.C2D_MESSAGE"
+com.garmin.a"
 "com.hapiconnect","android.permission.INTERNET\
 android.permission.ACCESS_NETWORK_STATE\
 android.permission.WRITE_EXTERNAL_STORAGE\

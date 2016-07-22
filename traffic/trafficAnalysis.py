@@ -4,10 +4,6 @@ import logging.config
 logging.config.fileConfig('logging.conf')
 logger = logging.getLogger('runner')
 
-import ConfigParser
-import os
-
-from db.Experiments import Experiments
 from db.Location import Location
 
 from helper.experimentation import *

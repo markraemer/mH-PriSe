@@ -18,7 +18,7 @@ from subprocess import call
 from playstore import apps_companion,apps_tools
 from apk import extractBaseInfo, runMallodroid, signAnalysis, apkHelper, runEviCheck, runExplainDroid, checkObfuscation
 from onDevice import runDrozer,addonDetector,deviceHelper
-from helper import checkLogFolders, experimentation, experiment_overview
+from helper import checkLogFolders, experimentation, experiment_overview, experiment_export_latex
 from traffic import trafficAnalysis
 from pick import pick
 from bash import bashHelper
@@ -132,6 +132,7 @@ menu_tree = {
             "6 - kill running tools (if program crashed previously)": None,
             "7 - validate log folder structure": (checkLogFolders,[]),
             "8 - export tables to csv": (bashHelper.dump_tables, []),
+            "9 - generate latex exports": (experiment_export_latex.do, []),
             "quit": None
         },
         'title': "tools and helper",

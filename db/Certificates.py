@@ -58,3 +58,11 @@ class Certificates():
         rows = cur.fetchall()
         field_names = [i[0] for i in cur.description]
         return rows, field_names
+
+    @staticmethod
+    def getCerts():
+        sql = "SELECT package, cert_sig_algo, cert_issuer, cert_subject, cert_nb, cert_na, cert_pka, cert_pkl, cert_sn FROM certificates;"
+        cur.execute(sql, [])
+        rows = cur.fetchall()
+        field_names = [i[0] for i in cur.description]
+        return rows, field_names

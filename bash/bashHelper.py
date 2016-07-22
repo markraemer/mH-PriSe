@@ -39,3 +39,4 @@ def dump_tables():
         cmd = "sh bash/dump_table_to_csv.sh {} {}".format(table, path)
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
+

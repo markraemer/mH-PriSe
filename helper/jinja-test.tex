@@ -1,0 +1,12 @@
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{1.5}
+\caption{\VAR{caption}}
+\centering
+\begin{tabularx}{\linewidth}{\VAR{col_layout}}
+\VAR{headers}
+\DTLforeach{\VAR{tablename}}{
+\VAR{colkeys}}{
+\\ \hline% start new row
+\VAR{rowkeys}}
+\end{tabularx}
+\end{table}

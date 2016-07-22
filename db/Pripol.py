@@ -111,3 +111,11 @@ class Pripol():
 
         logger.debug(query)
         cur.execute(query)
+
+    @staticmethod
+    def getDetails():
+        sql = "SELECT * FROM pripol;"
+        cur.execute(sql, [])
+        rows = cur.fetchall()
+        field_names = [i[0] for i in cur.description]
+        return rows, field_names

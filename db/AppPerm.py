@@ -31,3 +31,19 @@ class AppPerm():
         rows = cur.fetchall()
         field_names = [i[0] for i in cur.description]
         return rows, field_names
+
+    @staticmethod
+    def getAppPerm():
+        sql = "SELECT * FROM mhealth_apps.view_app_perm;"
+        cur.execute(sql, [])
+        rows = cur.fetchall()
+        field_names = [i[0] for i in cur.description]
+        return rows, field_names
+
+    @staticmethod
+    def getAllPerm():
+        sql = "SELECT * FROM mhealth_apps.permissions;"
+        cur.execute(sql, [])
+        rows = cur.fetchall()
+        field_names = [i[0] for i in cur.description]
+        return rows, field_names

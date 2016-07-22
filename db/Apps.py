@@ -90,10 +90,7 @@ class Apps():
         app.version = row[2]
         app.versioncode = row[3]
         app.filesize = row[4]
-        app.path_to_icon = row[5]
-        app.type = row[6]
-        app.path_to_exports = row[7]
-        app.path_to_apk = row[8]
+        app.path_to_apk = row[5]
         return app
 
     @classmethod

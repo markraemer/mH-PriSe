@@ -1,0 +1,12 @@
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{1.5}
+\caption{}
+\centering
+\begin{tabularx}{\linewidth}{X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X}
+\bfseries package & \bfseries URL & \bfseries NumWords & \bfseries NumChars & \bfseries version & \bfseries Country & \bfseries AP & \bfseries SSP & \bfseries OP & \bfseries PSP & \bfseries IPP & \bfseries intUsage & \bfseries 3rdPartyStorage & \bfseries Merger & \bfseries 3rdPartyForward & \bfseries quotes & \bfseries comments
+\DTLforeach{pripol}{
+\package=package, \URL=URL, \NumWords=NumWords, \NumChars=NumChars, \version=version, \Country=Country, \AP=AP, \SSP=SSP, \OP=OP, \PSP=PSP, \IPP=IPP, \intUsage=intUsage, \3rdPartyStorage=3rdPartyStorage, \Merger=Merger, \3rdPartyForward=3rdPartyForward, \quotes=quotes, \comments=comments}{
+\\ \hline% start new row
+\package & \URL & \NumWords & \NumChars & \version & \Country & \AP & \SSP & \OP & \PSP & \IPP & \intUsage & \3rdPartyStorage & \Merger & \3rdPartyForward & \quotes & \comments}
+\end{tabularx}
+\end{table}

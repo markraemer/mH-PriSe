@@ -1,0 +1,12 @@
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{1.5}
+\caption{}
+\centering
+\begin{tabularx}{\linewidth}{X|X|X|X|X|X|X|X|X|X|X}
+\bfseries package & \bfseries title & \bfseries version & \bfseries category & \bfseries company & \bfseries price & \bfseries rating & \bfseries popularity & \bfseries releasedate & \bfseries pripol & \bfseries timestamp
+\DTLforeach{appdetails}{
+\package=package, \title=title, \version=version, \category=category, \company=company, \price=price, \rating=rating, \popularity=popularity, \releasedate=release date, \pripol=pripol, \timestamp=timestamp}{
+\\ \hline% start new row
+\package & \title & \version & \category & \company & \price & \rating & \popularity & \releasedate & \pripol & \timestamp}
+\end{tabularx}
+\end{table}

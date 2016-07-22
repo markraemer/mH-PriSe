@@ -1,0 +1,12 @@
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{1.5}
+\caption{}
+\centering
+\begin{tabularx}{\linewidth}{X|X|X|X|X|X|X|X|X}
+\bfseries package & \bfseries certsigalgo & \bfseries certissuer & \bfseries certsubject & \bfseries certnb & \bfseries certna & \bfseries certpka & \bfseries certpkl & \bfseries certsn
+\DTLforeach{certificates}{
+\package=package, \certsigalgo=cert sig algo, \certissuer=cert issuer, \certsubject=cert subject, \certnb=cert nb, \certna=cert na, \certpka=cert pka, \certpkl=cert pkl, \certsn=cert sn}{
+\\ \hline% start new row
+\package & \certsigalgo & \certissuer & \certsubject & \certnb & \certna & \certpka & \certpkl & \certsn}
+\end{tabularx}
+\end{table}
