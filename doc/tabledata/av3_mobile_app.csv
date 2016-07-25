@@ -1,0 +1,25 @@
+"test step","rating","desc","com.activ8rlives.mobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2"
+"av3_reg_pwd_policy","0 - no policy 1 - min characters 2 - mixed charsets","is a password policy enforced","0","1","1","1","0"
+"av3_data_coll","informational","data collected and send by the mobile app","","","","",""
+"av3_export_sdcard","unsecure feature: 0 / secure feature: 1","can data be exported to SD card or other locations on device and is that data encrypted","n/a","n/a","n/a","n/a","n/a"
+"av3_export_cloud","unsecure feature: 0 / secure feature: 1","data being exported somewhere into the cloud (dropbox et al)","n/a","n/a","n/a","n/a","n/a"
+"av3_reg_data_input","informational","Specifies the data fields and types which are required as inputs","","","","",""
+"av3_data_wipe","unsecure feature: 0 / secure feature: 1","can data be wiped from the mobile application","0","0","0","0","0"
+"av3_code_comment","general comment on coding","any comment on the code","","","","",""
+"av3_pwd_change_freq","0 no rule
+1 rule but not reasonable (> 90 days)
+2 rule and reasonable (< 90 days)","password change period (must) and frequency (can)","n/a","0","n/a","0","0"
+"av3_pwd_change_policy","0 - no policy
+1 - min characters
+2 - mixed charsets","password policy enforced on password change","n/a","1","n/a","1","n/a"
+"av3_reg_pripol_link","0 - no link or information; 1 - link available","link to privacy policy or any kind of information on such topic","1","0","0","0","1"
+"av3_data_leakage","no data leaked: 2 / complies with privacy policy: 1 / data leaked beyond privacy policy: 0","identifiable for the user or the phone that is being collected","0","0","1","0","1"
+"av3_export_social","unsecure feature: 0 / secure feature: 1","export variants to social media and data encryption while exporting","n/a","1","n/a","1","n/a"
+"av3_reg_acc_verif","0 / none
+1 / email account verification
+2 / two factor authentication","email account verification or two factor authentication","0","0","0","0","0"
+"av3_pwd_change_reuse","0 - yes, unlimited
+1 - no, but history can be bypassed (see change freq)
+2 - no without limitation","can a password be reused and how much difference is required","n/a","1","n/a","0","n/a"
+"sum","","","2.0","5.0","3.0","4.0","3.0"
+"av3_reg_data_validation","0 - data not validated; 1 - data is validated","Comments on data validation during user registration: weight, heitght, email...","1","1","1","1","1"

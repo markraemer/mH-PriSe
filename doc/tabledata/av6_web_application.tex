@@ -1,0 +1,12 @@
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{1.5}
+\caption{}
+\centering
+\begin{tabularx}{\linewidth}{X|X|X|X|X|X|X|X}
+\bfseries test step & \bfseries rating & \bfseries desc & \bfseries com.activ8rlives.mobile & \bfseries com.hapiconnect & \bfseries com.medm.medmwt.diary & \bfseries com.stabxtom.thomson & \bfseries com.withings.wiscale2
+\DTLforeach{av6_web_application}{
+\test step=test step, \rating=rating, \desc=desc, \com.activ8rlives.mobile=com.activ8rlives.mobile, \com.hapiconnect=com.hapiconnect, \com.medm.medmwt.diary=com.medm.medmwt.diary, \com.stabxtom.thomson=com.stabxtom.thomson, \com.withings.wiscale2=com.withings.wiscale2}{
+\\ \hline% start new row
+\test step & \rating & \desc & \com.activ8rlives.mobile & \com.hapiconnect & \com.medm.medmwt.diary & \com.stabxtom.thomson & \com.withings.wiscale2}
+\end{tabularx}
+\end{table}

@@ -7,6 +7,7 @@ from db.Certificates import Certificates
 from db.AppDetails import AppDetails
 from db.Pripol import Pripol
 from db.AppPerm import AppPerm
+from db import ExperimentsOverview
 
 # initialize configuration parser
 import ConfigParser
@@ -32,7 +33,7 @@ def generate_table(outfile, keys, name):
 					 variable_end_string='}')
 
 	# This constant string specifies the template file we will use.
-	TEMPLATE_FILE = "helper/jinja-test.tex"
+	TEMPLATE_FILE = "helper/templates/template_datatool_table.tex"
 
 	# Read the template file using the environment object.
 	# This also constructs our Template object.
@@ -98,15 +99,56 @@ def permission():
         f.close()
 
 
+def experiment_overview_export():
+
+    cases = ExperimentsOverview.getTestCases()
+    for case in cases:
+        steps = ExperimentsOverview.getTestSteps(case[0])
+        header = ["test step", "rating", "desc"]
+        for package in whitelist:
+            header.append(package)
+
+        body={}
+        for step in steps:
+            body[step[0]] = []
+            body[step[0]].extend([step[1], step[2]])
+            ratings = ExperimentsOverview.getRating(step[0])
+            for rating in ratings:
+                if rating[1] in whitelist:
+                    body[step[0]].append(rating[0])
+
+        body['sum']=["",""]
+        sums = ExperimentsOverview.getSumRatings(case[0])
+        for sum in sums:
+            if sum[0] in whitelist:
+                body['sum'].append(str(sum[1]))
+
+        # generate csv file
+        f = open(path + case[0] +".csv", 'wt')
+        try:
+            writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(header)
+            for i in body.keys():
+                body[i].insert(0, i)
+                writer.writerow(body[i])
+        finally:
+            f.close()
+
+        # generate latex template
+        generate_table(path + case[0] + ".tex", header, case[0])
+
+
 
 def do():
-	permission()
+    permission()
 
-	rows, keys = Certificates.getCerts()
-	generate_table(path + "certificates.tex", keys, "certificates")
+    experiment_overview_export()
 
-	rows, keys = AppDetails.getDetails()
-	generate_table(path + "app-details.tex", keys, "appdetails")
+    rows, keys = Certificates.getCerts()
+    generate_table(path + "certificates.tex", keys, "certificates")
 
-	rows, keys = Pripol.getDetails()
-	generate_table(path + "pripol.tex", keys, "pripol")
+    rows, keys = AppDetails.getDetails()
+    generate_table(path + "app-details.tex", keys, "appdetails")
+
+    rows, keys = Pripol.getDetails()
+    generate_table(path + "pripol.tex", keys, "pripol")

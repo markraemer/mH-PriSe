@@ -1,0 +1,4 @@
+"test step","rating","desc","com.activ8rlives.mobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2"
+"av2_export_backup","data not encrypted: 0 / data in backup encrypted: 1 / no data stored: 2 ","data is being backed up using the android backup command","2","0","1","0","0"
+"sum","","","3.0","0.0","2.0","0.0","1.0"
+"av2_export_logging","information in log available or not","investigate the Android log for unencrypted information","1","0","1","0","1"
