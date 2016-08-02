@@ -24,25 +24,25 @@ def getTestCases():
     return rows
 
 def getRating(test_step):
-    sql = "select rating, package, c2 from experiment_overview where test_step=%s order by package;"
+    sql = "select rating, package, device, c2 from experiment_overview where test_step=%s order by device;"
     cur.execute(sql, [test_step])
     rows = cur.fetchall()
     return rows
 
 def getTestCaseComments(test_case):
-    sql = "select package, group_concat(comment separator '\n') from experiments where test_case=%s group by package order by package;"
+    sql = "select e.package, d.id, concat_ws(' ', d.vendor, d.model), group_concat(e.comment separator '\n') from experiments e join devices d on e.device = d.id where e.test_case=%s group by e.device order by e.device;"
     cur.execute(sql, [test_case])
     rows = cur.fetchall()
     return rows
 
 def getSumRatings(test_case):
-    sql = "select package, sum(rating) from experiment_overview where test_case=%s group by package order by package;"
+    sql = "select package, device, sum(rating) from experiment_overview where test_case=%s group by device order by device;"
     cur.execute(sql, [test_case])
     rows = cur.fetchall()
     return rows
 
 def getSolArch():
-    sql = "SELECT package, c1 FROM mhealth_apps.experiment_overview where test_case='sol_arch';"
+    sql = "SELECT d.package, concat_ws(' ', d.vendor, d.model), e.c1 FROM mhealth_apps.experiment_overview e join devices d on e.device=d.id where e.test_case='sol_arch' order by e.device;"
     cur.execute(sql)
     rows = cur.fetchall()
     return rows

@@ -5,15 +5,25 @@ logging.config.fileConfig('logging.conf')
 logger = logging.getLogger('runner')
 
 from db import ExperimentsOverview
-from db.AppPerm import AppPerm
 
-import lxml
 import pdfkit
-from lxml.html import builder as E
 from lxml import etree
 from StringIO import *
+from db.Devices import Devices
+import ConfigParser
+# initialize configuration parser
+config = ConfigParser.RawConfigParser()
+config.read('config.prop')
+
+doc_folder = config.get("export","doc.folder")
+
+
+devices = [1,2,5,6,9,10]
+
 packages = ["com.activ8rlives.mobile", "com.hapiconnect",
             "com.medm.medmwt.diary", "com.stabxtom.thomson", "com.withings.wiscale2"]
+
+
 packages.sort()
 
 
@@ -53,17 +63,21 @@ def create_doc(file_name, details=False):
 
             tr = etree.SubElement(thead, "tr")
             th = etree.SubElement(tr, "th")
-            th.text = "package"
+            th.text = "device"
+            br = etree.SubElement(th,"br")
+            br.tail = "package"
             th = etree.SubElement(tr, "th")
             th.text = "comment"
             for comment in comments:
-                if comment[0] in packages:
+                if int(comment[1]) in devices:
                     tr = etree.SubElement(table, "tr")
                     th = etree.SubElement(tr, "th")
-                    th.text = comment[0]
+                    th.text = comment[2]
+                    br = etree.SubElement(th, "br")
+                    br.tail = comment[0]
                     th.set("class","row-header")
                     td = etree.SubElement(tr, "td")
-                    td.text = comment[1]
+                    td.text = comment[3]
 
         table = etree.SubElement(body, "table")
         if not details:
@@ -84,11 +98,14 @@ def create_doc(file_name, details=False):
         th = etree.SubElement(tr, "th")
         th.text = "desc"
         th.set("width", "200px")
-        for package in packages:
+        devicenames = Devices.getDevicesNames(devices)
+        for device in devicenames:
             th = etree.SubElement(tr, "th")
             div = etree.SubElement(th, "div")
             span = etree.SubElement(div, "span")
-            span.text = package
+            span.text = device[0]
+            br = etree.SubElement(span, "br")
+            br.tail = device[1]
             th.set("class","rotate")
         tbody = etree.SubElement(table, "tbody")
         for step in steps:
@@ -104,7 +121,7 @@ def create_doc(file_name, details=False):
             td3.set("style", "font-size: small;")
             ratings = ExperimentsOverview.getRating(step[0])
             for rating in ratings:
-                if rating[1] in packages:
+                if int(rating[2]) in devices:
                     td = etree.SubElement(tr, "td")
                     td.set("style", "font-size: small;text-align: left; vertical-align: top;")
                     p = etree.SubElement(td, "p")
@@ -112,7 +129,7 @@ def create_doc(file_name, details=False):
                     p.text = rating[0]
                     if details:
                         p2 = etree.SubElement(td, "p")
-                        p2.text = rating[2]
+                        p2.text = rating[3]
 
 
         # add sums
@@ -122,9 +139,9 @@ def create_doc(file_name, details=False):
         td = etree.SubElement(tr, "td")
         sums = ExperimentsOverview.getSumRatings(case[0])
         for sum in sums:
-            if sum[0] in packages:
+            if int(sum[1]) in devices:
                 td = etree.SubElement(tr, "td")
-                td.text = str(sum[1])
+                td.text = str(sum[2])
 
 
 
@@ -137,15 +154,17 @@ def create_doc(file_name, details=False):
     comments = ExperimentsOverview.getSolArch()
     tr = etree.SubElement(table, "tr")
     td = etree.SubElement(tr, "td")
-    td.text = "package"
+    td.text = "device\npackage"
     td2 = etree.SubElement(tr, "td")
     td2.text = "comment"
     for comment in comments:
         tr = etree.SubElement(table, "tr")
         td = etree.SubElement(tr, "td")
         td.text = comment[0]
+        br = etree.SubElement(td, "br")
+        br.tail = comment[1]
         td2 = etree.SubElement(tr, "td")
-        td2.text = comment[1]
+        td2.text = comment[2]
 
     options = {
         'page-size': 'Letter',

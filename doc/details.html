@@ -8,32 +8,42 @@
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/modernizr-2.7.1.js"></script><table class="table" width="1024px">
 <caption><h1>av1_data_trans</h1></caption>
 <thead><tr>
-<th>package</th>
+<th>device<br>package</th>
 <th>comment</th>
 </tr></thead>
 <tr>
-<th class="row-header">com.activ8rlives.mobile</th>
+<th class="row-header">Activ8rLives Body Analyser<br>com.activ8rlives.mobile</th>
 <td>executing attacks on traffic to reveal that most of the messages are not authenticated at all; also passwords are transmitted in clear text
+registered and collected data; measurement captured
 aggregated from teststeps</td>
 </tr>
 <tr>
-<th class="row-header">com.hapiconnect</th>
+<th class="row-header">FitBit aria<br>com.fitbit.FitbitMobile</th>
+<td>captured data and viewed in dashboard; single measurement only
+aggregated from teststeps</td>
+</tr>
+<tr>
+<th class="row-header">HAPI Connected Scale<br>com.hapiconnect</th>
 <td>replay tampering and injection tested
+test run to collect data from app only; registered, paired and executed measurements; on device firewall was limitting data collection to app only
 aggregated from teststeps</td>
 </tr>
 <tr>
-<th class="row-header">com.medm.medmwt.diary</th>
+<th class="row-header">iChoice S1<br>com.medm.medmwt.diary</th>
 <td>ran some attacks against the data in transmission
+dawith firewall activated registered, paired and collected data
 aggregated from teststeps</td>
 </tr>
 <tr>
-<th class="row-header">com.stabxtom.thomson</th>
+<th class="row-header">Thomson TBS705<br>com.stabxtom.thomson</th>
 <td>tried to tamper with traffic by manipulating requests and stealing the session to use it to inject further measurements; however data couldnt be synchroniyed back into the application (even after deleting all app data the app doesnt intially download all dataa from server; previous measurements are simply lost
+collected data with firewall on device activated
 aggregated from teststeps</td>
 </tr>
 <tr>
-<th class="row-header">com.withings.wiscale2</th>
-<td>aggregated from teststeps
+<th class="row-header">Withings WS-30<br>com.withings.wiscale2</th>
+<td>recorded registration and measurements with active firewall
+aggregated from teststeps
 tampered with data and executed some replay attacks; data is not validated and can cause server errors if weight to high</td>
 </tr>
 </table>
@@ -43,60 +53,69 @@ tampered with data and executed some replay attacks; data is not validated and c
 <th>test step</th>
 <th width="200px">rating</th>
 <th width="200px">desc</th>
-<th class="rotate"><div><span>com.activ8rlives.mobile</span></div></th>
-<th class="rotate"><div><span>com.hapiconnect</span></div></th>
-<th class="rotate"><div><span>com.medm.medmwt.diary</span></div></th>
-<th class="rotate"><div><span>com.stabxtom.thomson</span></div></th>
-<th class="rotate"><div><span>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>Activ8rLives Body Analyser<br>com.activ8rlives.mobile</span></div></th>
+<th class="rotate"><div><span>FitBit aria<br>com.fitbit.FitbitMobile</span></div></th>
+<th class="rotate"><div><span>HAPI Connected Scale<br>com.hapiconnect</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
+<th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
+<th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
 <th class="row-header">av1_inject</th>
-<td style="font-size: small;">vulnerable: 0 / not vulnerable: 1</td>
+<td style="font-size: small;">vulnerable: 1 / not vulnerable: 0</td>
 <td style="font-size: small;">inject new data to the stream</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>requests with new measurements are not authenticated and measurements are mapped by userid; so as soon as one finds out a user ID measurements can be happily inserted</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
+<p>possible based on reverse engineering the transfer protocol</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
 <p>injection is possible with reconstructing the signature value.. all required values can be read from the communication stream</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>injection is only possible as long as the user provides an authenticated session</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>injection is possible</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>possible as long as scale has session and this can be used</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av1_replay</th>
-<td style="font-size: small;">vulnerable: 0 / not vulnerable: 1</td>
+<td style="font-size: small;">vulnerable: 1 / not vulnerable: 0</td>
 <td style="font-size: small;">finding some way to replay information to the server</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>replaying of messages is easliy possible but will replace the existing record for a day as only one record per day can exist</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
+<p>replay possible and will create new entries on online platform; entry time is based on time when measurement got sent to the server</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>simple replay is not possible due to client side generated signatures</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>replay is not possible as every record comes with a separate uuid</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>replay attacks are perfectly possible even with stolen session ID.. however the generated data seems to be unaccessible to the user</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>replay attacks are possible within the same session &#13;
 session is requested based on a once which is used to generate a hash &#13;
 the server is able to use that hash to identify the user and sends user information including a valid session key</p>
@@ -104,89 +123,106 @@ the server is able to use that hash to identify the user and sends user informat
 </tr>
 <tr>
 <th class="row-header">av1_ssl</th>
-<td style="font-size: small;">not using SSL: 0 / using SSL: 1</td>
+<td style="font-size: small;">not using SSL: 1 / using SSL: 0</td>
 <td style="font-size: small;">is using SSL</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>using SSL</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
-<p>no SSL</p>
+<p>using ssl</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
-<p>using SSL</p>
+<p>no SSL</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
-<p>no SSL</p>
+<p>using SSL</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
+<p>no SSL</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>using SSL</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av1_ssl_forg</th>
-<td style="font-size: small;">vulnerable: 0 / not vulnerable: 1</td>
+<td style="font-size: small;">vulnerable: 1 / not vulnerable: 0</td>
 <td style="font-size: small;">secure and correct implementation of communication encryption</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>working - username and password in message body clear text</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
-<p>no SSL usage</p>
-</td>
-<td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
 <p>not working</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>no SSL usage</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
-<p>working - username in clear text, mobile id and password somehow encrypted or obfuscated</p>
+<p>not working</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
+<p>working - username in clear text, mobile id and password somehow encrypted or obfuscated</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>not working</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av1_ssl_forg_ca</th>
-<td style="font-size: small;">vulnerable: 0 / not vulnerable: 1</td>
+<td style="font-size: small;">vulnerable: 1 / not vulnerable: 0</td>
 <td style="font-size: small;">in addition to data_com_ssl_forg the trusted CA certificate is installed</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>working as without CA certificate</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
-<p>NO SSL - username in cleartext and password somehow encrypted or obfuscated</p>
+<p style="font-style: bold;">1</p>
+<p>working</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
+<p>NO SSL - username in cleartext and password somehow encrypted or obfuscated</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>not working</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>NO SSL</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>working</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av1_tamper</th>
-<td style="font-size: small;">not vulnerable: 2 / upper limit e.g. weight: 1 / no limit or validation: 0</td>
+<td style="font-size: small;">not vulnerable: 0 / upper limit e.g. weight: 1 / no limit or validation: 2</td>
 <td style="font-size: small;">tampering the data before it can reach the server defeating input validation</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>tampering with the weight data is possible a weight up to 99999999 kg can be entered; beyond that the server will respond with an error</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1
+no limit</p>
+<p>possible but crc16 error detection code has to be recalculated for the full message; see python script which will allow to forge some messages</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">2</p>
 <p>possible at any point in time</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -194,11 +230,11 @@ the server is able to use that hash to identify the user and sends user informat
 <p>records can be changed but still the max weight is validated and limited to 300kg</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>data can be easily changed and is happily accepted by the server</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>data can be changed and apparently the server is not validating the data so that unplausible data can be entered tried to change the user ID so that the data would be inserted into a different account -&gt; that however was not successful</p>
 </td>
 </tr>
@@ -206,38 +242,43 @@ the server is able to use that hash to identify the user and sends user informat
 <td></td>
 <td></td>
 <td></td>
-<td>1.0</td>
-<td>1.0</td>
-<td>5.0</td>
-<td>0.0</td>
+<td>6.0</td>
+<td>4.0</td>
+<td>6.0</td>
 <td>2.0</td>
+<td>7.0</td>
+<td>5.0</td>
 </tr>
 </tbody>
 </table>
 <table class="table" width="1024px">
 <caption><h1>av2_mobile_device</h1></caption>
 <thead><tr>
-<th>package</th>
+<th>device<br>package</th>
 <th>comment</th>
 </tr></thead>
 <tr>
-<th class="row-header">com.activ8rlives.mobile</th>
+<th class="row-header">Activ8rLives Body Analyser<br>com.activ8rlives.mobile</th>
 <td>used some basic app functions to generate data</td>
 </tr>
 <tr>
-<th class="row-header">com.hapiconnect</th>
+<th class="row-header">FitBit aria<br>com.fitbit.FitbitMobile</th>
+<td>investigating application data</td>
+</tr>
+<tr>
+<th class="row-header">HAPI Connected Scale<br>com.hapiconnect</th>
 <td>investigating the device</td>
 </tr>
 <tr>
-<th class="row-header">com.medm.medmwt.diary</th>
+<th class="row-header">iChoice S1<br>com.medm.medmwt.diary</th>
 <td>looking for data leakage</td>
 </tr>
 <tr>
-<th class="row-header">com.stabxtom.thomson</th>
+<th class="row-header">Thomson TBS705<br>com.stabxtom.thomson</th>
 <td>found way too much information in the device logs</td>
 </tr>
 <tr>
-<th class="row-header">com.withings.wiscale2</th>
+<th class="row-header">Withings WS-30<br>com.withings.wiscale2</th>
 <td>run the app to synchronize and export app data to disk for further investigation</td>
 </tr>
 </table>
@@ -247,23 +288,28 @@ the server is able to use that hash to identify the user and sends user informat
 <th>test step</th>
 <th width="200px">rating</th>
 <th width="200px">desc</th>
-<th class="rotate"><div><span>com.activ8rlives.mobile</span></div></th>
-<th class="rotate"><div><span>com.hapiconnect</span></div></th>
-<th class="rotate"><div><span>com.medm.medmwt.diary</span></div></th>
-<th class="rotate"><div><span>com.stabxtom.thomson</span></div></th>
-<th class="rotate"><div><span>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>Activ8rLives Body Analyser<br>com.activ8rlives.mobile</span></div></th>
+<th class="rotate"><div><span>FitBit aria<br>com.fitbit.FitbitMobile</span></div></th>
+<th class="rotate"><div><span>HAPI Connected Scale<br>com.hapiconnect</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
+<th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
+<th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
 <th class="row-header">av2_export_backup</th>
-<td style="font-size: small;">data not encrypted: 0 / data in backup encrypted: 1 / no data stored: 2 </td>
+<td style="font-size: small;">data not encrypted: 2 / data in backup encrypted: 1 / no data stored: 0 </td>
 <td style="font-size: small;">data is being backed up using the android backup command</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">2</p>
+<p style="font-style: bold;">0</p>
 <p>no data in backup found</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
+<p>database not encrypted and shared prefs in clear text</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">2</p>
 <p>database unencrypted, password in clear text in shared prefs, </p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -271,37 +317,41 @@ the server is able to use that hash to identify the user and sends user informat
 <p>sqlite databases not encrypted; shared preferences are obscured and encrypted</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>backup contains unencrypted database which includes all information from measurements to device information / information on session and any credentials can be picked up from the shared prefs folder</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>database is available and data can be read in clear text</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av2_export_logging</th>
-<td style="font-size: small;">information in log available or not</td>
+<td style="font-size: small;">information available: 1 / no information: 0</td>
 <td style="font-size: small;">investigate the Android log for unencrypted information</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>no suspicious data in logging information</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
-<p>logging contains detailed information on every single request send to the server</p>
+<p>no information in log file</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
-<p>no information leaked in logcat</p>
+<p>logging contains detailed information on every single request send to the server</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
+<p>no information leaked in logcat</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
 <p>logcat shows detailed logs with even some information on the recorded data and partly http traces
 bluetooth connection management is shown in full including MAC addresses which are logged and saved</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>no information written to logcat</p>
 </td>
 </tr>
@@ -309,35 +359,42 @@ bluetooth connection management is shown in full including MAC addresses which a
 <td></td>
 <td></td>
 <td></td>
-<td>3.0</td>
 <td>0.0</td>
 <td>2.0</td>
-<td>0.0</td>
+<td>3.0</td>
 <td>1.0</td>
+<td>3.0</td>
+<td>2.0</td>
 </tr>
 </tbody>
 </table>
 <table class="table" width="1024px">
 <caption><h1>av3_mobile_app</h1></caption>
 <thead><tr>
-<th>package</th>
+<th>device<br>package</th>
 <th>comment</th>
 </tr></thead>
 <tr>
-<th class="row-header">com.activ8rlives.mobile</th>
+<th class="row-header">Activ8rLives Body Analyser<br>com.activ8rlives.mobile</th>
 <td>setting up user account and checking password policies</td>
 </tr>
 <tr>
-<th class="row-header">com.hapiconnect</th>
+<th class="row-header">FitBit aria<br>com.fitbit.FitbitMobile</th>
+<td>registered although web page failed; registration was redirected to web browser; no registration from within mobile application possible
+paired scale again and configured wifi ; this time better timing with phone packet capture while it is connected to the scale
+investigating the app and collecting data</td>
+</tr>
+<tr>
+<th class="row-header">HAPI Connected Scale<br>com.hapiconnect</th>
 <td>registered user and setup app
 change passwords and analysed traffic</td>
 </tr>
 <tr>
-<th class="row-header">com.medm.medmwt.diary</th>
+<th class="row-header">iChoice S1<br>com.medm.medmwt.diary</th>
 <td>registered user and provided some basic data</td>
 </tr>
 <tr>
-<th class="row-header">com.stabxtom.thomson</th>
+<th class="row-header">Thomson TBS705<br>com.stabxtom.thomson</th>
 <td>ran regestration test steps
 paired the scale with the app
 tried some input validations, injection, tampering by manually adding data
@@ -345,7 +402,7 @@ check the password change process and turns out that an attacker can change the 
 password change via email link on not secure website</td>
 </tr>
 <tr>
-<th class="row-header">com.withings.wiscale2</th>
+<th class="row-header">Withings WS-30<br>com.withings.wiscale2</th>
 <td>setting up the withings scale and saw some weird input validations (details in test cases)
 some manual entry added and uploaded to withings server
 aggregated from teststeps
@@ -358,21 +415,26 @@ password change and export tests</td>
 <th>test step</th>
 <th width="200px">rating</th>
 <th width="200px">desc</th>
-<th class="rotate"><div><span>com.activ8rlives.mobile</span></div></th>
-<th class="rotate"><div><span>com.hapiconnect</span></div></th>
-<th class="rotate"><div><span>com.medm.medmwt.diary</span></div></th>
-<th class="rotate"><div><span>com.stabxtom.thomson</span></div></th>
-<th class="rotate"><div><span>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>Activ8rLives Body Analyser<br>com.activ8rlives.mobile</span></div></th>
+<th class="rotate"><div><span>FitBit aria<br>com.fitbit.FitbitMobile</span></div></th>
+<th class="rotate"><div><span>HAPI Connected Scale<br>com.hapiconnect</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
+<th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
+<th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
 <th class="row-header">av3_code_comment</th>
-<td style="font-size: small;">general comment on coding</td>
+<td style="font-size: small;">informational</td>
 <td style="font-size: small;">any comment on the code</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;"></p>
 <p>app crashing with Android 6.0.1 so reverting back to Android 6
 also App is Xamarin based and running in Monodroid VM on Android which is some C style based implementation</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">tbd</p>
+<p>tbd</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;"></p>
@@ -405,6 +467,10 @@ the password seems to be MD5 hashed but since the communication is not encrypted
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;"></p>
+<p>weight can be entered and other fitness data</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;"></p>
 <p>not possible to enter data manually</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -423,14 +489,19 @@ seems to be transmitted</p>
 </tr>
 <tr>
 <th class="row-header">av3_data_leakage</th>
-<td style="font-size: small;">no data leaked: 2 / complies with privacy policy: 1 / data leaked beyond privacy policy: 0</td>
+<td style="font-size: small;">no data leaked: 0 / complies with privacy policy: 1 / data leaked beyond privacy policy: 2</td>
 <td style="font-size: small;">identifiable for the user or the phone that is being collected</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>xamarin framework is sending the android device id home and is tracking different events such as network change from wifi to lte, application startup and a full device fingerprint including attributes such aus screensize, resolution, network, model, memroy, cpu count, android version, client version, app installed</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
+<p>device fingerprinting and application usage tracking but without any personal data
+; all data is being send to mixpanel.com</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">2</p>
 <p>no SSL implemented so data can easily be read; in addition passwords are just MD5 hased without salts what makes them vulnerable to rainbow table lookups; full personal information including email address, password, date of birth, weight and height can be read</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -438,7 +509,7 @@ seems to be transmitted</p>
 <p>as far as captured no data was being leaked</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>!! advertising librariy Umeng detected.. library is sending a full device fingerprint including IMEI and MAC (where it cant retrieve the MAC because of Android 6 changes) /n password (encrypted) and email send over unencrypted network; password seems to be some kind of 16byte hash.. tried a few tools to get the pattern and repoduce it but so far without success
 
 reveals full details during pairing as serial numbers, device hardware version, software version and some specific password are sent unencryted</p>
@@ -450,36 +521,44 @@ reveals full details during pairing as serial numbers, device hardware version, 
 </tr>
 <tr>
 <th class="row-header">av3_data_wipe</th>
-<td style="font-size: small;">unsecure feature: 0 / secure feature: 1</td>
+<td style="font-size: small;">unsecure feature: 1 / secure feature: 0</td>
 <td style="font-size: small;">can data be wiped from the mobile application</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>no possibility to wipe data from inside the app</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
+<p>no feature</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
 <p>not possible from within the app</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>no data wipe option</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>no data wipe from within the app only be using the system settings; also no possibility to delete data from the server and hard to contact them as there is no email received or any information inside the app leading to a contact address</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>no possibility to wipe data from app or from device, no way to delete account</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av3_export_cloud</th>
-<td style="font-size: small;">unsecure feature: 0 / secure feature: 1</td>
+<td style="font-size: small;">unsecure feature: 1 / secure feature: 0</td>
 <td style="font-size: small;">data being exported somewhere into the cloud (dropbox et al)</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
 <p>n/a</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>no export possible</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
@@ -500,11 +579,15 @@ reveals full details during pairing as serial numbers, device hardware version, 
 </tr>
 <tr>
 <th class="row-header">av3_export_sdcard</th>
-<td style="font-size: small;">unsecure feature: 0 / secure feature: 1</td>
+<td style="font-size: small;">unsecure feature: 1 / secure feature: 0</td>
 <td style="font-size: small;">can data be exported to SD card or other locations on device and is that data encrypted</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
 <p>n/a</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>no export possible</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
@@ -525,14 +608,18 @@ reveals full details during pairing as serial numbers, device hardware version, 
 </tr>
 <tr>
 <th class="row-header">av3_export_social</th>
-<td style="font-size: small;">unsecure feature: 0 / secure feature: 1</td>
+<td style="font-size: small;">unsecure feature: 1 / secure feature: 0</td>
 <td style="font-size: small;">export variants to social media and data encryption while exporting</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
+<p>connection to facebook possible but for information only</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>screenshot of the graph can be shared with any 3rd party app</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -540,7 +627,7 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>twitter, facebook and email but none of them worked</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -550,16 +637,18 @@ reveals full details during pairing as serial numbers, device hardware version, 
 </tr>
 <tr>
 <th class="row-header">av3_pwd_change_freq</th>
-<td style="font-size: small;">0 no rule
-1 rule but not reasonable (&gt; 90 days)
-2 rule and reasonable (&lt; 90 days)</td>
+<td style="font-size: small;">no period or frequency: 2 / either one: 1 / both: 0</td>
 <td style="font-size: small;">password change period (must) and frequency (can)</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
 <p>can't change password from within the app</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">2</p>
 <p>nothing enforced</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -567,20 +656,22 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>no password change policy or frequency enforced</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>n/a </p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av3_pwd_change_policy</th>
-<td style="font-size: small;">0 - no policy
-1 - min characters
-2 - mixed charsets</td>
+<td style="font-size: small;">no policy: 0 / min characters: 1 / mixed charsets: 2</td>
 <td style="font-size: small;">password policy enforced on password change</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
+</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
 <p>n/a</p>
@@ -604,10 +695,12 @@ reveals full details during pairing as serial numbers, device hardware version, 
 </tr>
 <tr>
 <th class="row-header">av3_pwd_change_reuse</th>
-<td style="font-size: small;">0 - yes, unlimited&#13;
-1 - no, but history can be bypassed (see change freq)&#13;
-2 - no without limitation</td>
+<td style="font-size: small;">yes, unlimited: 0 / no, but history can be bypassed (see change freq): 1 / no without limitation: 2</td>
 <td style="font-size: small;">can a password be reused and how much difference is required</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
+</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
 <p>n/a</p>
@@ -621,7 +714,7 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>passwords can be reused at any point in time how often ever the user wants to</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -631,29 +724,31 @@ reveals full details during pairing as serial numbers, device hardware version, 
 </tr>
 <tr>
 <th class="row-header">av3_reg_acc_verif</th>
-<td style="font-size: small;">0 / none&#13;
-1 / email account verification&#13;
-2 / two factor authentication</td>
+<td style="font-size: small;">none: 2 / email account verification: 1 / two factor authentication 0</td>
 <td style="font-size: small;">email account verification or two factor authentication</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>received no email on account verification
 / registration</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">2</p>
 <p>not at all</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>no - but received email with pointers to privacy statements and similar stuff</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>no verification email received</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>there is no trace of account verification&#13;
 not even a single email was received&#13;
 &#13;
@@ -668,6 +763,10 @@ assumption that this might be solution dependent as the withings watch caused a 
 <p style="font-style: bold;"></p>
 <p>weight, height, waistline, birthdate and bio data, fitness goal and setps towards the goal
 basic validation on weight, height and waistline</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;"></p>
@@ -688,51 +787,59 @@ basic validation on weight, height and waistline</p>
 </tr>
 <tr>
 <th class="row-header">av3_reg_data_validation</th>
-<td style="font-size: small;">0 - data not validated; 1 - data is validated</td>
+<td style="font-size: small;">data not validated: 1 / data is validated: 0</td>
 <td style="font-size: small;">Comments on data validation during user registration: weight, heitght, email...</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>basic validation on weight, height and waistline</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>weight and height only</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>height and weight are limited; no other validation</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>limited values for weight, height, waistline, age</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>email adress is validated n password provided A n very high weights are not allowed 600lb but weird error message n height is accepted at 3m</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av3_reg_pripol_link</th>
-<td style="font-size: small;">0 - no link or information; 1 - link available</td>
+<td style="font-size: small;">no link or information: 1 / link available: 0</td>
 <td style="font-size: small;">link to privacy policy or any kind of information on such topic</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>link to terms and conditions plus acceptance of terms and conditions is required to use the app</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
-<p>no explicit link visible</p>
-</td>
-<td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
-<p>not visible during registration but linked from within the app</p>
-</td>
-<td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
-<p>no link to privacy policy apparent</p>
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
+<p>no explicit link visible</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>not visible during registration but linked from within the app</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>no link to privacy policy apparent</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>link to privacy policy is provided
 
 http://www.withings.com/uk/en/legal
@@ -742,11 +849,15 @@ also terms and conditions but both links are pointing to the same webpage1</p>
 </tr>
 <tr>
 <th class="row-header">av3_reg_pwd_policy</th>
-<td style="font-size: small;">0 - no policy 1 - min characters 2 - mixed charsets</td>
+<td style="font-size: small;">no policy: 2 / min characters: 1 / mixed charsets: 0</td>
 <td style="font-size: small;">is a password policy enforced</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>no password policy as registration with a simple A was possible</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
@@ -761,7 +872,7 @@ also terms and conditions but both links are pointing to the same webpage1</p>
 <p>6-16 characters</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>no hint to any kind of password policy could be found</p>
 </td>
 </tr>
@@ -769,38 +880,43 @@ also terms and conditions but both links are pointing to the same webpage1</p>
 <td></td>
 <td></td>
 <td></td>
-<td>2.0</td>
-<td>5.0</td>
-<td>3.0</td>
-<td>4.0</td>
-<td>3.0</td>
+<td>7.0</td>
+<td>1.0</td>
+<td>11.0</td>
+<td>6.0</td>
+<td>12.0</td>
+<td>8.0</td>
 </tr>
 </tbody>
 </table>
 <table class="table" width="1024px">
 <caption><h1>av4_third_party</h1></caption>
 <thead><tr>
-<th>package</th>
+<th>device<br>package</th>
 <th>comment</th>
 </tr></thead>
 <tr>
-<th class="row-header">com.activ8rlives.mobile</th>
+<th class="row-header">Activ8rLives Body Analyser<br>com.activ8rlives.mobile</th>
 <td>leakage of data to xamarin</td>
 </tr>
 <tr>
-<th class="row-header">com.hapiconnect</th>
+<th class="row-header">FitBit aria<br>com.fitbit.FitbitMobile</th>
+<td>no data being leaked</td>
+</tr>
+<tr>
+<th class="row-header">HAPI Connected Scale<br>com.hapiconnect</th>
 <td>investigating data leakage</td>
 </tr>
 <tr>
-<th class="row-header">com.medm.medmwt.diary</th>
+<th class="row-header">iChoice S1<br>com.medm.medmwt.diary</th>
 <td>no data leakage found</td>
 </tr>
 <tr>
-<th class="row-header">com.stabxtom.thomson</th>
+<th class="row-header">Thomson TBS705<br>com.stabxtom.thomson</th>
 <td>data leakage to third party investigated</td>
 </tr>
 <tr>
-<th class="row-header">com.withings.wiscale2</th>
+<th class="row-header">Withings WS-30<br>com.withings.wiscale2</th>
 <td>data leakage</td>
 </tr>
 </table>
@@ -810,36 +926,41 @@ also terms and conditions but both links are pointing to the same webpage1</p>
 <th>test step</th>
 <th width="200px">rating</th>
 <th width="200px">desc</th>
-<th class="rotate"><div><span>com.activ8rlives.mobile</span></div></th>
-<th class="rotate"><div><span>com.hapiconnect</span></div></th>
-<th class="rotate"><div><span>com.medm.medmwt.diary</span></div></th>
-<th class="rotate"><div><span>com.stabxtom.thomson</span></div></th>
-<th class="rotate"><div><span>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>Activ8rLives Body Analyser<br>com.activ8rlives.mobile</span></div></th>
+<th class="rotate"><div><span>FitBit aria<br>com.fitbit.FitbitMobile</span></div></th>
+<th class="rotate"><div><span>HAPI Connected Scale<br>com.hapiconnect</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
+<th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
+<th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
 <th class="row-header">av4_data_leakage</th>
-<td style="font-size: small;">1 - no data leaked/complies privacy policy; 0 - data leaked beyond privacy policy</td>
+<td style="font-size: small;">no data leaked: 0 / complies with privacy policy: 1 / data leaked beyond privacy policy: 2</td>
 <td style="font-size: small;">data leakage to third party services</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>detailled data on the device is leaked to xamarin servers; this data can be used for fingerprinting and shouldn't be collected; there are other device identifiers that can be used /n pictures taken are uploaded to an image service and not to their own servers</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
-<p>no data leakage apparent</p>
+<p>no data being leaked so far</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
+<p>no data leakage apparent</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>no data leakage to third party on recor
 d</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>data is being leaked to advertising companies; data includes phone identifier information</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>no data being leaked</p>
 </td>
 </tr>
@@ -847,39 +968,46 @@ d</p>
 <td></td>
 <td></td>
 <td></td>
-<td>0.0</td>
-<td>0.0</td>
 <td>1.0</td>
 <td>0.0</td>
 <td>1.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
 </tr>
 </tbody>
 </table>
 <table class="table" width="1024px">
 <caption><h1>av5_sensor_device</h1></caption>
 <thead><tr>
-<th>package</th>
+<th>device<br>package</th>
 <th>comment</th>
 </tr></thead>
 <tr>
-<th class="row-header">com.activ8rlives.mobile</th>
+<th class="row-header">Activ8rLives Body Analyser<br>com.activ8rlives.mobile</th>
 <td>connected scale and did some measurements</td>
 </tr>
 <tr>
-<th class="row-header">com.hapiconnect</th>
+<th class="row-header">FitBit aria<br>com.fitbit.FitbitMobile</th>
+<td>some measurements with the scale
+captured firmware being send to the scale
+measurements with increasing weight from 75.9, 76.0 to 76.1</td>
+</tr>
+<tr>
+<th class="row-header">HAPI Connected Scale<br>com.hapiconnect</th>
 <td>paired scale but the app ended up in some loop sending the same request infintely
 running pairing and data collection test cases</td>
 </tr>
 <tr>
-<th class="row-header">com.medm.medmwt.diary</th>
+<th class="row-header">iChoice S1<br>com.medm.medmwt.diary</th>
 <td>paired device and did some measurements</td>
 </tr>
 <tr>
-<th class="row-header">com.stabxtom.thomson</th>
+<th class="row-header">Thomson TBS705<br>com.stabxtom.thomson</th>
 <td>collected some data by weighting and sending data to web server</td>
 </tr>
 <tr>
-<th class="row-header">com.withings.wiscale2</th>
+<th class="row-header">Withings WS-30<br>com.withings.wiscale2</th>
 <td>first tried to setup scale using bluetooth but didnt work; then tried via wifi and would work; traffic from scale to withings webserver is http only; possibly can be exploited for replay attacks as well; maybe firmware update will defeat the http vulnerability as the scale partly communicates via https
 collected data from scale and successfully uploaded to withings; added a new user within the same account, but withings offers as well to associate the same scale with different accounts; replay attacks are likely to be successful
 manipulated request for firmware and got link to update.. firmware can be downloaded</td>
@@ -891,11 +1019,12 @@ manipulated request for firmware and got link to update.. firmware can be downlo
 <th>test step</th>
 <th width="200px">rating</th>
 <th width="200px">desc</th>
-<th class="rotate"><div><span>com.activ8rlives.mobile</span></div></th>
-<th class="rotate"><div><span>com.hapiconnect</span></div></th>
-<th class="rotate"><div><span>com.medm.medmwt.diary</span></div></th>
-<th class="rotate"><div><span>com.stabxtom.thomson</span></div></th>
-<th class="rotate"><div><span>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>Activ8rLives Body Analyser<br>com.activ8rlives.mobile</span></div></th>
+<th class="rotate"><div><span>FitBit aria<br>com.fitbit.FitbitMobile</span></div></th>
+<th class="rotate"><div><span>HAPI Connected Scale<br>com.hapiconnect</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
+<th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
+<th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
@@ -905,6 +1034,10 @@ manipulated request for firmware and got link to update.. firmware can be downlo
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;"></p>
 <p>collecting data from scale and transferring it immediately without any user interact the webservice</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;"></p>
+<p>data is being collected as weight and bodyfat; data can be assigned to a user immediatley after that user has been synchronised to the scale</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;"></p>
@@ -933,6 +1066,10 @@ manipulated request for firmware and got link to update.. firmware can be downlo
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;"></p>
+<p>pairing is initiated from the web page where the user has to login to a account; after obtaining a registration credentials for the scale, the scale is started to expose a wifi hotspot and then one has to connect to the scales hotspot to configure it; this is done by selecting a wifi network it should connect to and providing relevant login credentials; however these credentials are transmitted in clear text and hence leaked during the login process; the scale is then linked to the users account and can send data to that account</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;"></p>
 <p>pairing process is without real device pairing using a passcode or something</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -950,26 +1087,30 @@ manipulated request for firmware and got link to update.. firmware can be downlo
 </tr>
 <tr>
 <th class="row-header">av5_swfw_update</th>
-<td style="font-size: small;">0 - vulnerable 1 - not vulnerable</td>
+<td style="font-size: small;">vulnerable: 1 / not vulnerable: 0</td>
 <td style="font-size: small;">update cycle related issues</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>app to server communication doesn't show any hint regarding a firmware version for the scale</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
-<p>communication between app and server doesn't show any hint of information on possible firmware updates</p>
-</td>
-<td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
-<p>no version information exchanged between app and server</p>
-</td>
-<td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
-<p>scale sends its version on registration to the server but doesn't expect any updates</p>
+<p>firmware is queried from scale after uploading new measurements; firmware can be updated on a regular basis</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
+<p>communication between app and server doesn't show any hint of information on possible firmware updates</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>no version information exchanged between app and server</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>scale sends its version on registration to the server but doesn't expect any updates</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>scale asks server if any firmware update is available and provides the currently installed version intercepting this request and changing the firmware yields a link to an update send by server</p>
 </td>
 </tr>
@@ -977,41 +1118,46 @@ manipulated request for firmware and got link to update.. firmware can be downlo
 <td></td>
 <td></td>
 <td></td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
+<td>1.0</td>
 <td>0.0</td>
 <td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>0.0</td>
 </tr>
 </tbody>
 </table>
 <table class="table" width="1024px">
 <caption><h1>av6_web_application</h1></caption>
 <thead><tr>
-<th>package</th>
+<th>device<br>package</th>
 <th>comment</th>
 </tr></thead>
 <tr>
-<th class="row-header">com.activ8rlives.mobile</th>
+<th class="row-header">Activ8rLives Body Analyser<br>com.activ8rlives.mobile</th>
 <td>basic ellaboration of the web page
 user registration via web page</td>
 </tr>
 <tr>
-<th class="row-header">com.hapiconnect</th>
+<th class="row-header">FitBit aria<br>com.fitbit.FitbitMobile</th>
+<td>gathered data on web page; attention: wlan SSID is mentioned on web page</td>
+</tr>
+<tr>
+<th class="row-header">HAPI Connected Scale<br>com.hapiconnect</th>
 <td>data input tests and testing manipulation
 investigated web page</td>
 </tr>
 <tr>
-<th class="row-header">com.medm.medmwt.diary</th>
+<th class="row-header">iChoice S1<br>com.medm.medmwt.diary</th>
 <td>explored web access
 tested for csrf vulnerability</td>
 </tr>
 <tr>
-<th class="row-header">com.stabxtom.thomson</th>
+<th class="row-header">Thomson TBS705<br>com.stabxtom.thomson</th>
 <td>no web page found which would come with the solution</td>
 </tr>
 <tr>
-<th class="row-header">com.withings.wiscale2</th>
+<th class="row-header">Withings WS-30<br>com.withings.wiscale2</th>
 <td>investigate if account can be delete with spoofed information --&gt; account can't be deleted with stolen session id from unencrypted sensor device communication</td>
 </tr>
 </table>
@@ -1021,28 +1167,32 @@ tested for csrf vulnerability</td>
 <th>test step</th>
 <th width="200px">rating</th>
 <th width="200px">desc</th>
-<th class="rotate"><div><span>com.activ8rlives.mobile</span></div></th>
-<th class="rotate"><div><span>com.hapiconnect</span></div></th>
-<th class="rotate"><div><span>com.medm.medmwt.diary</span></div></th>
-<th class="rotate"><div><span>com.stabxtom.thomson</span></div></th>
-<th class="rotate"><div><span>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>Activ8rLives Body Analyser<br>com.activ8rlives.mobile</span></div></th>
+<th class="rotate"><div><span>FitBit aria<br>com.fitbit.FitbitMobile</span></div></th>
+<th class="rotate"><div><span>HAPI Connected Scale<br>com.hapiconnect</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
+<th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
+<th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
 <th class="row-header">av6_csrf</th>
-<td style="font-size: small;">0 - vulnerable&#13;
-1 - not vulnerable</td>
+<td style="font-size: small;">vulnerable: 1 / not vulnerable: 0</td>
 <td style="font-size: small;">basic CSRF attack</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>csrf token are not renewed after request so that if an attacker manages to steal one of them he is able to send requests for the duration of the session; csrf token is correctly bound to the session</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
+<p>ouath and csrf tokens protect</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>tested on password change and found that websites protects against CSRF</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>not vulnerable.. is using authenticity tokens for requests</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1050,24 +1200,28 @@ tested for csrf vulnerability</td>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>protected</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av6_data_input</th>
-<td style="font-size: small;">0 - data not validated; 1 - data is validated</td>
+<td style="font-size: small;">data not validated: 1 / data is validated: 0</td>
 <td style="font-size: small;">data input via web UI and validation</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>data is limited to max 300kg</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
+<p>weight data and other measurement data can be entered on web page</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
 <p>data is not validated since unreasonably high measurements can be entered</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>data is not validated but sanitized</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1075,24 +1229,28 @@ tested for csrf vulnerability</td>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>limited</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av6_data_wipe</th>
-<td style="font-size: small;">unsecure feature: 0 / secure feature: 1</td>
+<td style="font-size: small;">insecure feature: 1 / secure feature: 0</td>
 <td style="font-size: small;">wipe and delete data from the web account</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>data wipe is not available from the web page; the policy mentions two mail addresses one for deactivation and one for deletion of which none worked; email send to again another mail address and waiting for response -&gt; even worse managed to send an email from a different email account to delete another account</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
+<p>no feature implemented but possible per email request; sender email has to be the account email</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>no option</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>account deletion possible</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1100,13 +1258,13 @@ tested for csrf vulnerability</td>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>account can be deleted but has 7 days period before they claim that data will actually be removed from their systems</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av6_export_cloud</th>
-<td style="font-size: small;">unsecure feature: 0 / secure feature: 1</td>
+<td style="font-size: small;">insecure feature: 1 / secure feature: 0</td>
 <td style="font-size: small;">data being exported somewhere into the cloud (dropbox et al)</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
@@ -1128,21 +1286,29 @@ tested for csrf vulnerability</td>
 <p style="font-style: bold;">n/a</p>
 <p>n/a</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av6_export_disk</th>
-<td style="font-size: small;">unsecure feature: 0 / secure feature: 1</td>
+<td style="font-size: small;">insecure feature: 1 / secure feature: 0</td>
 <td style="font-size: small;">can data be exported to SD card or other locations on device and is that data encrypted</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>excel document can be exported and data within that document is unencrypted</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
+<p>your data belongs to you - comment and download via htt</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>download as csv or html page</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1150,20 +1316,24 @@ tested for csrf vulnerability</td>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>only after account deletion data can be downloaded</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av6_export_social</th>
-<td style="font-size: small;">unsecure feature: 0 / secure feature: 1</td>
+<td style="font-size: small;">insecure feature: 1 / secure feature: 0</td>
 <td style="font-size: small;">export variants to social media and data encryption while exporting</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
 <p>no social sharing other than the web platforms own sharing is implemented; carer can be invited and also practitioners and clinics can get access; however that feature was not working</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
+<p>social sharing possible but with detailled privacy settings</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>facebook, twitter</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1181,18 +1351,22 @@ tested for csrf vulnerability</td>
 </tr>
 <tr>
 <th class="row-header">av6_pri_pol</th>
-<td style="font-size: small;">0 not available; link available 1</td>
+<td style="font-size: small;">no link or information: 1 / link available: 0</td>
 <td style="font-size: small;">pirvacy poclicy linked and available</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>the privacy policy is linked from the web page</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
+<p>accessible from the page footer area where it is linked</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>link in footer but not very visible</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>linked on web page</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1200,26 +1374,28 @@ tested for csrf vulnerability</td>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>visibly linked from web interface</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av6_pwd_change_freq</th>
-<td style="font-size: small;">0 no rule&#13;
-1 rule but not reasonable (&gt; 90 days)&#13;
-2 rule and reasonable (&lt; 90 days)</td>
+<td style="font-size: small;">no period or frequency: 2 / either one: 1 / both: 0</td>
 <td style="font-size: small;">password change period (must) and frequency (can)</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>not implemented</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
+<p>no frequency defined</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">2</p>
 <p>none</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>none</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1227,17 +1403,21 @@ tested for csrf vulnerability</td>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>no frequency enforced</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av6_pwd_change_policy</th>
-<td style="font-size: small;">0 - no policy 1 - min characters 2 - mixed charsets</td>
+<td style="font-size: small;">no policy: 2 / min characters: 1 / mixed charsets: 0</td>
 <td style="font-size: small;">password policy enforced on password change</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>none</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>min 8 characters</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
@@ -1258,20 +1438,22 @@ tested for csrf vulnerability</td>
 </tr>
 <tr>
 <th class="row-header">av6_pwd_change_reuse</th>
-<td style="font-size: small;">0 - yes, unlimited&#13;
-1 - no, but history can be bypassed (see change freq)&#13;
-2 - no without limitation</td>
+<td style="font-size: small;">yes, unlimited: 0 / no, but history can be bypassed (see change freq): 1 / no without limitation: 2</td>
 <td style="font-size: small;">can a password be reused and how much difference is required</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>none</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
+<p>unlimited reuse</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">2</p>
 <p>unlimited</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>not limited</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1279,26 +1461,28 @@ tested for csrf vulnerability</td>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>unlimited reuse</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av6_reg_acc_verif</th>
-<td style="font-size: small;">0 / none&#13;
-1 / email account verification&#13;
-2 / two factor authentication</td>
+<td style="font-size: small;">none: 2 / email account verification: 1 / two factor authentication 0</td>
 <td style="font-size: small;">email account verification or two factor authentication</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>none</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
+<p>account verification per email send but not enforced</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">2</p>
 <p>no</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>no.. just email with confirmation that account has been created</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1306,7 +1490,7 @@ tested for csrf vulnerability</td>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>no verification</p>
 </td>
 </tr>
@@ -1317,6 +1501,10 @@ tested for csrf vulnerability</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;"></p>
 <p>same as app</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;"></p>
+<p>mail, name, dob, weight (limited), height (limited)</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;"></p>
@@ -1337,18 +1525,22 @@ tested for csrf vulnerability</td>
 </tr>
 <tr>
 <th class="row-header">av6_reg_data_validation</th>
-<td style="font-size: small;">0 - data not validated; 1 - data validated</td>
+<td style="font-size: small;">data not validated: 1 / data is validated: 0</td>
 <td style="font-size: small;">Comments on data validation during user registration: weight, heitght, email...</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>same as app: only medical data</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
-<p>no</p>
+<p>sanitized and validated</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
+<p>no</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>same as app</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1356,42 +1548,50 @@ tested for csrf vulnerability</td>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>some data validation for height and weight</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av6_reg_pripol_link</th>
-<td style="font-size: small;">0 - no link or information; 1 - link available</td>
+<td style="font-size: small;">no link or information: 1 / link available: 0</td>
 <td style="font-size: small;">link to privacy policy or any kind of information on such topic</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
-<p>no explicit information</p>
-</td>
-<td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">1</p>
 <p>not visible but very hidden in footer</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
-<p>bottom of the page</p>
+<p>privacy policy link is available and has to be acknowledged; in addition hint that data is transferred to the US</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>not visible but very hidden in footer</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
+<p>visible in registration form</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>yes</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av6_reg_pwd_policy</th>
-<td style="font-size: small;">0 - no policy 1 - min characters 2 - mixed charsets</td>
+<td style="font-size: small;">no policy: 2 / min characters: 1 / mixed charsets: 0</td>
 <td style="font-size: small;">is a password policy enforced</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">0</p>
+<p style="font-style: bold;">2</p>
 <p>no</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>min 8 character</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
@@ -1412,11 +1612,15 @@ tested for csrf vulnerability</td>
 </tr>
 <tr>
 <th class="row-header">av6_sql_injection</th>
-<td style="font-size: small;">vulnerable: 0 / 1</td>
+<td style="font-size: small;">vulnerable: 1 / not vulnerable: 0</td>
 <td style="font-size: small;">inject sql queries to learn information from the server</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>protects against basic sql injection</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
+<p>not possible</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
@@ -1431,13 +1635,13 @@ tested for csrf vulnerability</td>
 <p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
-<p style="font-style: bold;">1</p>
+<p style="font-style: bold;">0</p>
 <p>not possible</p>
 </td>
 </tr>
 <tr>
 <th class="row-header">av6_xss</th>
-<td style="font-size: small;">vulnerable: 0 / 1</td>
+<td style="font-size: small;">vulnerable: 1 / not vulnerable: 0</td>
 <td style="font-size: small;">basic xss attacks on the web page with a select statement</td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
@@ -1446,6 +1650,10 @@ for password field and manual entries</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
+<p>oauth and csrf token protect</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
 <p>no</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
@@ -1465,27 +1673,33 @@ for password field and manual entries</p>
 <td></td>
 <td></td>
 <td></td>
-<td>5.0</td>
-<td>6.0</td>
+<td>13.0</td>
 <td>7.0</td>
+<td>11.0</td>
+<td>8.0</td>
 <td>0.0</td>
-<td>10.0</td>
+<td>8.0</td>
 </tr>
 </tbody>
 </table>
 <h1>sol_arch</h1>
 <table border="1 px" width="1024px">
 <tr>
-<td>package</td>
+<td>device
+package</td>
 <td>comment</td>
 </tr>
 <tr>
-<td>com.withings.wiscale2</td>
-<td>scale can connect via wifi and bluetooth wifi option enables scale to communicate with withings immediately wifi option is using http only phone is loading data from webservice scale is set up via bluetooth, this way it is provided with parameter</td>
+<td>com.fitbit.FitbitMobile<br>FitBit aria</td>
+<td>pairing works as described via wifi and connecting to the scale directly; scale communicates via unencrypted wifi connection with the fitbit server and sends information to them; scale and protocol have been researched by others and fitbit has already improved on their weaknesses a lot</td>
 </tr>
 <tr>
-<td>com.stabxtom.thomson</td>
+<td>com.stabxtom.thomson<br>Thomson TBS705</td>
 <td>measurements from the scale are first inserted into the database and then synchronized to a server (data center); however once the data has been synchronized to that server it is not any longer accessible for the user; the app after reset does not load the already collected data initially</td>
+</tr>
+<tr>
+<td>com.withings.wiscale2<br>Withings WS-30</td>
+<td>scale can connect via wifi and bluetooth wifi option enables scale to communicate with withings immediately wifi option is using http only phone is loading data from webservice scale is set up via bluetooth, this way it is provided with parameter</td>
 </tr>
 </table>
 </body>

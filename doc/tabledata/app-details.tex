@@ -2,11 +2,11 @@
 \renewcommand{\arraystretch}{1.5}
 \caption{}
 \centering
-\begin{tabularx}{\linewidth}{X|X|X|X|X|X|X|X|X|X|X}
-\bfseries package & \bfseries title & \bfseries version & \bfseries category & \bfseries company & \bfseries price & \bfseries rating & \bfseries popularity & \bfseries releasedate & \bfseries pripol & \bfseries timestamp
+\begin{tabularx}{\linewidth}{X|X|X|X|X|X|X|X|X|X|X|X|X}
+\bfseries package & \bfseries title & \bfseries version & \bfseries asin & \bfseries category & \bfseries company & \bfseries price & \bfseries rating & \bfseries popularity & \bfseries releasedate & \bfseries mom & \bfseries pripol & \bfseries timestamp
 \DTLforeach{appdetails}{
-\package=package, \title=title, \version=version, \category=category, \company=company, \price=price, \rating=rating, \popularity=popularity, \releasedate=release date, \pripol=pripol, \timestamp=timestamp}{
+\package=package, \title=title, \version=version, \asin=asin, \category=category, \company=company, \price=price, \rating=rating, \popularity=popularity, \releasedate=release date, \mom=mom, \pripol=pripol, \timestamp=timestamp}{
 \\ \hline% start new row
-\package & \title & \version & \category & \company & \price & \rating & \popularity & \releasedate & \pripol & \timestamp}
+\package & \title & \version & \asin & \category & \company & \price & \rating & \popularity & \releasedate & \mom & \pripol & \timestamp}
 \end{tabularx}
 \end{table}

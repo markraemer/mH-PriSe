@@ -15,6 +15,7 @@ from db.helper import *
 class Experiments():
 
     id = None
+    device = None
     package = None
     time = None
     test_case = None
@@ -31,6 +32,9 @@ class Experiments():
         if self.package is not None:
             data.append(self.package)
             sql.append("package='%s'")
+        if self.device is not None:
+            data.append(self.device)
+            sql.append("device='%s'")
         if self.time is not None:
             data.append(self.time)
             sql.append("time='%s'")
@@ -61,18 +65,17 @@ class Experiments():
         return rows
 
     @staticmethod
-    def getExperimentLogForPackag(package):
-        sql = "SELECT id, package, time, test_case, log_folder, comment FROM experiments where package='{}';".format(package)
-        cur.execute(sql)
+    def getExperimentLogForPackage(package, device):
+        sql = "SELECT id, package, time, test_case, log_folder, comment FROM experiments where package=%s and device=%s;"
+        cur.execute(sql,(package,device))
         rows = list(cur.fetchall())
         return rows
 
     @staticmethod
-    def getMissingDocumentation(package):
+    def getMissingDocumentation(package,device):
         sql = """select tc.name as test_case, group_concat(ts.name separator '\n') as test_steps, count(ts.name) as num from experiment_test_steps ts join experiment_test_cases tc on ts.test_case = tc.name
-            where ts.name not in (select test_step from experiments_details ed join experiments e on ed.experiment = e.id where
-            e.package='{}')  group by tc.name;""".format(package)
-        cur.execute(sql)
+            where ts.name not in (select test_step from experiments_details ed join experiments e on ed.experiment = e.id where e.package=%s and e.device=%s)  group by tc.name;"""
+        cur.execute(sql,(package, device))
         rows = list(cur.fetchall())
         return rows
 

@@ -71,7 +71,8 @@ def for_rec_experiment(context, createMap=False):
             return
     else:
         package = context.package
-    record, index = select_recorded_experiment(package)
+    device = chooseDevice(package)
+    record, index = select_recorded_experiment(package,device)
     print record
     if record:
         exp = Experiments()

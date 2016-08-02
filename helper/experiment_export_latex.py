@@ -8,6 +8,7 @@ from db.AppDetails import AppDetails
 from db.Pripol import Pripol
 from db.AppPerm import AppPerm
 from db import ExperimentsOverview
+from db.Devices import Devices
 
 # initialize configuration parser
 import ConfigParser
@@ -17,6 +18,7 @@ config.read('config.prop')
 path = config.get('tools','path.doc.tabledata')
 
 whitelist = ["com.activ8rlives.mobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2"]
+devices = [1,2,5,6,9,10]
 
 # In this case, we will load templates off the filesystem.
 # This means we must construct a FileSystemLoader object.
@@ -100,28 +102,27 @@ def permission():
 
 
 def experiment_overview_export():
-
+    devicenames = Devices.getDevicesNames(devices)
     cases = ExperimentsOverview.getTestCases()
     for case in cases:
         steps = ExperimentsOverview.getTestSteps(case[0])
-        header = ["test step", "rating", "desc"]
-        for package in whitelist:
-            header.append(package)
-
+        header = ["teststep", "rating", "desc"]
+        for devicename in devicenames:
+            header.append(devicename[1])
         body={}
         for step in steps:
             body[step[0]] = []
             body[step[0]].extend([step[1], step[2]])
             ratings = ExperimentsOverview.getRating(step[0])
             for rating in ratings:
-                if rating[1] in whitelist:
+                if rating[2] in devices:
                     body[step[0]].append(rating[0])
 
-        body['sum']=["",""]
+        body['number of issues']=["",""]
         sums = ExperimentsOverview.getSumRatings(case[0])
         for sum in sums:
             if sum[0] in whitelist:
-                body['sum'].append(str(sum[1]))
+                body['number of issues'].append(str(sum[2]))
 
         # generate csv file
         f = open(path + case[0] +".csv", 'wt')

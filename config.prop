@@ -31,3 +31,6 @@ traffic.ipdatabase.url=http://ipinfo.io/
 [experiments]
 mitmproxy.keylog.file=/media/exthdd/recording/sslkeylogfile.txt
 experiment.rec.path=/media/exthdd/experiments
+
+[export]
+doc.folder=/root/Dropbox/Master/Project/experiments

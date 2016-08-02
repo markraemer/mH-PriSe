@@ -50,6 +50,8 @@ def change_package(dest_menu):
     context.package = experimentation.choosePackage()
     context.current_menu = dest_menu
 
+# using curses-menu by Paul Barrett
+# https://github.com/pmbarrett314/curses-menu
 menu_tree = {
     'prepare': {
         'menu': {
@@ -69,9 +71,9 @@ menu_tree = {
             "2 - PREPARE analysis": ('menu', ['prepare']),
             "3 - STATIC analysis": ('menu', ['static']),
             "4 - DYNAMIC analysis": (change_package, ['dynamic']), # should choose package first
-            "5 - data analysis": (change_package, ['post']),  # should choose packge -> test case first
-            "6 - tools and helper": ('menu', ['tools']),
-            "7 - show results": (experiment_export_overview.do, []),
+            "5 - POST experiment analysis": (change_package, ['post']),  # should choose packge -> test case first
+            "6 - export results": ('menu', ['export']),
+            "7 - tools and helper": ('menu', ['tools']),
             "quit": None
         },
         'title': "Main Menu",
@@ -131,17 +133,25 @@ menu_tree = {
             "5 - stop all 3rd party apps": (deviceHelper.stopAllApps,None),
             "6 - kill running tools (if program crashed previously)": None,
             "7 - validate log folder structure": (checkLogFolders,[]),
-            "8 - export tables to csv": (bashHelper.dump_tables, []),
-            "9 - generate latex exports": (experiment_export_latex.do, []),
             "quit": None
         },
         'title': "tools and helper",
         'parent_menu': 'main'
+    },
+    'export' : {
+        'menu': {
+            "1 - static analysis - tables to csv": (bashHelper.dump_tables, []),
+            "2 - static analysis - generate latex exports": (experiment_export_latex.do, []),
+            "3 - dynamic analysis - results (PDF, HTML)": (experiment_export_overview.do, []),
+            "quit": None
+        },
+        'title': "show test case details",
+        'parent_menu': 'post'
     }
 
 
 }
-
+(experiment_export_overview.do, []),
 import time
 
 def show_menu(startid='main'):

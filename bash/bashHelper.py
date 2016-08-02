@@ -33,7 +33,7 @@ def runProgram(program, args=None):
     os.system("{} {}".format(program,args))
 
 def dump_tables():
-    tables = ['view_addons','am', 'view_app_perm','apps','certificates','experiment_overview','pripol','view_malware','view_obfuscation']
+    tables = ['devices','view_addons','am', 'view_app_perm','apps','certificates','experiment_overview','pripol','view_malware','view_obfuscation']
     path = "doc/tabledata"
     for table in tables:
         cmd = "sh bash/dump_table_to_csv.sh {} {}".format(table, path)

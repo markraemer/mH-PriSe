@@ -9,7 +9,9 @@ import os
 import ConfigParser
 import subprocess
 import datetime
+import copy
 import time
+import numpy as np
 import json
 from terminaltables import AsciiTable
 
@@ -20,6 +22,7 @@ from db.Experiments import Experiments
 from db.TestCases import TestCases
 from db.TestSteps import TestSteps
 from db.ExperimentsDetails import ExperimentsDetails
+from db.Devices import Devices
 from db.CodeAnalysis import CodeAnalysis
 from db.Drozer import Drozer
 
@@ -43,33 +46,34 @@ def multiline_input(title):
         data.append(line)
     return '\n'.join(data)
 
-def show_missing_documentation(package):
-    missingDocs = Experiments.getMissingDocumentation(package)
+def show_missing_documentation(package, device):
+    missingDocs = Experiments.getMissingDocumentation(package,device)
     missingDocs.insert(0, ["test case", "test steps", "#"])
     table = AsciiTable(missingDocs)
     table.inner_row_border=True
     print table.table
     raw_input("TO CONTINUE PRESS ENTER...")
 
-def select_recorded_experiment(package):
+def select_recorded_experiment(package, device):
     title = "choose recording"
-    recorded = Experiments.getExperimentLogForPackag(package)
+    recorded = Experiments.getExperimentLogForPackage(package, device)
+    orig = copy.copy(recorded)
+    recorded = np.array(recorded)
+    recorded = recorded[:,[3,5]]
+    recorded = recorded.tolist()
     recorded.append("quit")
     record, index = pick(recorded, title)
-    if record == "quit":
-        return
-    else:
-        return recorded[index], index
+    return orig[index], index
 
-def doc_recorded_test_cases(package):
-    record, index = select_recorded_experiment(package)
-    if record:
+def doc_recorded_test_cases(package, device):
+    record, index = select_recorded_experiment(package, device)
+    if record != "quit":
         exp = Experiments()
         exp.id = record[0]
         document_test_steps(record[3], exp)
 
-def choose_test_case(package):
-    recorded = Experiments.getExperimentLogForPackag(package)
+def choose_test_case(package,device):
+    recorded = Experiments.getExperimentLogForPackage(package,device)
     recorded.append("quit")
     record, expid = pick(recorded, "choose recording")
     return record
@@ -204,21 +208,21 @@ def stop_capture_phone(app_recordingpath, package):
     os.system(cmd)
 
 
-def start_recording(context, package, testcase):
+def start_recording(context, package, testcase, device):
     #TODO organise different tools in functions and map functions to test cases --> recodring depends on test cases
     experiment = Experiments()
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H:%M:%S')
 
     if testcase != "sol_arch":
-        app_recordingpath = '/'.join([config.get("experiments","experiment.rec.path"), package, testcase, st])
+        app_recordingpath = '/'.join([config.get("experiments","experiment.rec.path"), package, "device-"+str(device), testcase, st])
         if not os.path.exists(app_recordingpath):
             os.makedirs(app_recordingpath)
         experiment.log_folder = app_recordingpath
 
     timestamp = st.replace('_',' ')
 
-
+    experiment.device = device
     experiment.package = package
     experiment.test_case = testcase
     experiment.time = timestamp
@@ -254,13 +258,22 @@ def choosePackage():
     return package
 
 
+def chooseDevice(package):
+    title = 'choose device: '
+    devices = Devices.getDevices(package)
+    devices = [x for x in devices]
+    devices.append("quit")
+    device, index = pick(devices, title)
+    return devices[index][0]
+
 def show_traces(context):
     if not context.package:
         package = choosePackage()
     else:
         package = context.package
+    device = chooseDevice(package)
     if package != "quit":
-        record = choose_test_case(package)
+        record = choose_test_case(package, device)
         if record != "quit":
             cmd = "gnome-terminal -e 'mitmproxy -r {}/mitm.out'".format(record[4])
             os.system(cmd)
@@ -271,8 +284,9 @@ def open_log_folder(context):
         package = choosePackage()
     else:
         package = context.package
+    device = chooseDevice(package)
     if package != "quit":
-        record = choose_test_case(package)
+        record = choose_test_case(package,device)
         if record != "quit":
             cmd = "xdg-open {}".format(record[4])
             os.system(cmd)
@@ -283,11 +297,12 @@ def do(action, context=None):
         package = choosePackage()
     else:
         package = context.package
+    device = chooseDevice(package)
     if package != "quit":
         if action == actions[0]:
             case = select_test_case()
-            start_recording(context, package, case)
+            start_recording(context, package, case, device)
         elif action == actions[1]:
-            doc_recorded_test_cases(package)
+            doc_recorded_test_cases(package, device)
         elif action == actions[2]:
-            show_missing_documentation(package)
+            show_missing_documentation(package, device)
