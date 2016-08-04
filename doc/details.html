@@ -46,6 +46,10 @@ aggregated from teststeps</td>
 aggregated from teststeps
 tampered with data and executed some replay attacks; data is not validated and can cause server errors if weight to high</td>
 </tr>
+<tr>
+<th class="row-header">iChoice S1<br>com.medm.ichoice.diary</th>
+<td>created data and inspected traffic</td>
+</tr>
 </table>
 <table class="table">
 <caption><h1>av1_data_trans</h1></caption>
@@ -59,6 +63,7 @@ tampered with data and executed some replay attacks; data is not validated and c
 <th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
 <th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
 <th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.ichoice.diary</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
@@ -88,6 +93,10 @@ tampered with data and executed some replay attacks; data is not validated and c
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
 <p>possible as long as scale has session and this can be used</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>possible since records just come with UUID and the auth token seems to be valid for quite some time</p>
 </td>
 </tr>
 <tr>
@@ -120,6 +129,10 @@ tampered with data and executed some replay attacks; data is not validated and c
 session is requested based on a once which is used to generate a hash &#13;
 the server is able to use that hash to identify the user and sends user information including a valid session key</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
+<p>no; UUID defeats a simple replay attack</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av1_ssl</th>
@@ -148,6 +161,10 @@ the server is able to use that hash to identify the user and sends user informat
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
 <p>using SSL</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
+<p>yes</p>
 </td>
 </tr>
 <tr>
@@ -178,6 +195,10 @@ the server is able to use that hash to identify the user and sends user informat
 <p style="font-style: bold;">0</p>
 <p>not working</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>yes, trustmanager issue</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av1_ssl_forg_ca</th>
@@ -206,6 +227,10 @@ the server is able to use that hash to identify the user and sends user informat
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
 <p>working</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>vulnerable as for other</p>
 </td>
 </tr>
 <tr>
@@ -237,6 +262,10 @@ no limit</p>
 <p style="font-style: bold;">2</p>
 <p>data can be changed and apparently the server is not validating the data so that unplausible data can be entered tried to change the user ID so that the data would be inserted into a different account -&gt; that however was not successful</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>changes possible within the limits of up to 300 kg</p>
+</td>
 </tr>
 <tr>
 <td></td>
@@ -248,6 +277,7 @@ no limit</p>
 <td>2.0</td>
 <td>7.0</td>
 <td>5.0</td>
+<td>4.0</td>
 </tr>
 </tbody>
 </table>
@@ -281,6 +311,10 @@ no limit</p>
 <th class="row-header">Withings WS-30<br>com.withings.wiscale2</th>
 <td>run the app to synchronize and export app data to disk for further investigation</td>
 </tr>
+<tr>
+<th class="row-header">iChoice S1<br>com.medm.ichoice.diary</th>
+<td>using app for a while</td>
+</tr>
 </table>
 <table class="table">
 <caption><h1>av2_mobile_device</h1></caption>
@@ -294,6 +328,7 @@ no limit</p>
 <th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
 <th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
 <th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.ichoice.diary</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
@@ -323,6 +358,10 @@ no limit</p>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">2</p>
 <p>database is available and data can be read in clear text</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">2</p>
+<p>data in caches but unencrypted</p>
 </td>
 </tr>
 <tr>
@@ -354,6 +393,10 @@ bluetooth connection management is shown in full including MAC addresses which a
 <p style="font-style: bold;">0</p>
 <p>no information written to logcat</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
+<p>no additional logging information</p>
+</td>
 </tr>
 <tr>
 <td></td>
@@ -364,6 +407,7 @@ bluetooth connection management is shown in full including MAC addresses which a
 <td>3.0</td>
 <td>1.0</td>
 <td>3.0</td>
+<td>2.0</td>
 <td>2.0</td>
 </tr>
 </tbody>
@@ -408,6 +452,11 @@ some manual entry added and uploaded to withings server
 aggregated from teststeps
 password change and export tests</td>
 </tr>
+<tr>
+<th class="row-header">iChoice S1<br>com.medm.ichoice.diary</th>
+<td>registered user and investigated app
+collected data</td>
+</tr>
 </table>
 <table class="table">
 <caption><h1>av3_mobile_app</h1></caption>
@@ -421,6 +470,7 @@ password change and export tests</td>
 <th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
 <th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
 <th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.ichoice.diary</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
@@ -456,6 +506,10 @@ the password seems to be MD5 hashed but since the communication is not encrypted
 <p style="font-style: bold;"></p>
 <p>tbd</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;"></p>
+<p>java coding with native dependencies</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av3_data_coll</th>
@@ -485,6 +539,10 @@ the password seems to be MD5 hashed but since the communication is not encrypted
 <p style="font-style: bold;"></p>
 <p>added entry manually to be uploaded to server API with server seems to be different from the scales API query parameters instead of body but everything is SSL encrypted some input validation inside the mobile application is done; manual entries are possible; no othe
 seems to be transmitted</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;"></p>
+<p>weight can be entered manually and is limited to 300</p>
 </td>
 </tr>
 <tr>
@@ -518,6 +576,10 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <p style="font-style: bold;">1</p>
 <p>none</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
+<p>no leakage identified</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av3_data_wipe</th>
@@ -546,6 +608,10 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">1</p>
 <p>no possibility to wipe data from app or from device, no way to delete account</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>no option</p>
 </td>
 </tr>
 <tr>
@@ -576,6 +642,10 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <p style="font-style: bold;">n/a</p>
 <p>no export option in app</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av3_export_sdcard</th>
@@ -604,6 +674,10 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
 <p>no export option</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
 </td>
 </tr>
 <tr>
@@ -634,6 +708,10 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <p style="font-style: bold;">n/a</p>
 <p>sharing is just inviting and as such possible to gmail, drive, bluetooth and android beam</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av3_pwd_change_freq</th>
@@ -662,6 +740,10 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">2</p>
 <p>n/a </p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
 </td>
 </tr>
 <tr>
@@ -692,6 +774,10 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <p style="font-style: bold;">n/a</p>
 <p>n/a</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av3_pwd_change_reuse</th>
@@ -716,6 +802,10 @@ reveals full details during pairing as serial numbers, device hardware version, 
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">2</p>
 <p>passwords can be reused at any point in time how often ever the user wants to</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">n/a</p>
+<p>n/a</p>
 </td>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">n/a</p>
@@ -754,6 +844,10 @@ not even a single email was received&#13;
 &#13;
 assumption that this might be solution dependent as the withings watch caused a lot of spam in the inbox</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">2</p>
+<p>received registration confirmation email</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av3_reg_data_input</th>
@@ -784,6 +878,10 @@ basic validation on weight, height and waistline</p>
 <p style="font-style: bold;"></p>
 <p>select scale n email and password n firstname, lastname, birthdate, height, weight</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;"></p>
+<p>name, email, gender optionally later weight, height and profile picture</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av3_reg_data_validation</th>
@@ -812,6 +910,10 @@ basic validation on weight, height and waistline</p>
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;">0</p>
 <p>email adress is validated n password provided A n very high weights are not allowed 600lb but weird error message n height is accepted at 3m</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>limited to 300 height and weight</p>
 </td>
 </tr>
 <tr>
@@ -846,6 +948,10 @@ http://www.withings.com/uk/en/legal
 
 also terms and conditions but both links are pointing to the same webpage1</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>no link visible</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av3_reg_pwd_policy</th>
@@ -875,6 +981,10 @@ also terms and conditions but both links are pointing to the same webpage1</p>
 <p style="font-style: bold;">2</p>
 <p>no hint to any kind of password policy could be found</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>min 6 characters</p>
+</td>
 </tr>
 <tr>
 <td></td>
@@ -886,6 +996,7 @@ also terms and conditions but both links are pointing to the same webpage1</p>
 <td>6.0</td>
 <td>12.0</td>
 <td>8.0</td>
+<td>6.0</td>
 </tr>
 </tbody>
 </table>
@@ -919,6 +1030,10 @@ also terms and conditions but both links are pointing to the same webpage1</p>
 <th class="row-header">Withings WS-30<br>com.withings.wiscale2</th>
 <td>data leakage</td>
 </tr>
+<tr>
+<th class="row-header">iChoice S1<br>com.medm.ichoice.diary</th>
+<td>no leakage observed</td>
+</tr>
 </table>
 <table class="table">
 <caption><h1>av4_third_party</h1></caption>
@@ -932,6 +1047,7 @@ also terms and conditions but both links are pointing to the same webpage1</p>
 <th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
 <th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
 <th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.ichoice.diary</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
@@ -963,6 +1079,10 @@ d</p>
 <p style="font-style: bold;">0</p>
 <p>no data being leaked</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">0</p>
+<p>no leakage observed</p>
+</td>
 </tr>
 <tr>
 <td></td>
@@ -973,6 +1093,7 @@ d</p>
 <td>1.0</td>
 <td>0.0</td>
 <td>1.0</td>
+<td>0.0</td>
 <td>0.0</td>
 </tr>
 </tbody>
@@ -1012,6 +1133,10 @@ running pairing and data collection test cases</td>
 collected data from scale and successfully uploaded to withings; added a new user within the same account, but withings offers as well to associate the same scale with different accounts; replay attacks are likely to be successful
 manipulated request for firmware and got link to update.. firmware can be downloaded</td>
 </tr>
+<tr>
+<th class="row-header">iChoice S1<br>com.medm.ichoice.diary</th>
+<td>collected data from scale</td>
+</tr>
 </table>
 <table class="table">
 <caption><h1>av5_sensor_device</h1></caption>
@@ -1025,6 +1150,7 @@ manipulated request for firmware and got link to update.. firmware can be downlo
 <th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
 <th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
 <th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.ichoice.diary</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
@@ -1055,6 +1181,10 @@ manipulated request for firmware and got link to update.. firmware can be downlo
 <p style="font-style: bold;"></p>
 <p>data is being transmitted via http only scale is able to display the weather of the day other then that it just collects a measurements with a UNIX timestamp and the weight in g this a JSON document being posted to the server also location information is send to the scale and used by it; this communication is encrypted</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;"></p>
+<p>measurement just as expected; can be tampered and injection possible as long as auth token is valid</p>
+</td>
 </tr>
 <tr>
 <th class="row-header">av5_pairing_process</th>
@@ -1083,6 +1213,10 @@ manipulated request for firmware and got link to update.. firmware can be downlo
 <td style="font-size: small;text-align: left; vertical-align: top;">
 <p style="font-style: bold;"></p>
 <p>pairing is possible via bluetooth to the phone; it requires an authentication and is persisted; thereafter the scale is able to communicate via wifi or bluetooth with the server</p>
+</td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;"></p>
+<p>no real pairing process</p>
 </td>
 </tr>
 <tr>
@@ -1113,6 +1247,10 @@ manipulated request for firmware and got link to update.. firmware can be downlo
 <p style="font-style: bold;">0</p>
 <p>scale asks server if any firmware update is available and provides the currently installed version intercepting this request and changing the firmware yields a link to an update send by server</p>
 </td>
+<td style="font-size: small;text-align: left; vertical-align: top;">
+<p style="font-style: bold;">1</p>
+<p>no software or firmware update cycle</p>
+</td>
 </tr>
 <tr>
 <td></td>
@@ -1124,6 +1262,7 @@ manipulated request for firmware and got link to update.. firmware can be downlo
 <td>1.0</td>
 <td>1.0</td>
 <td>0.0</td>
+<td>1.0</td>
 </tr>
 </tbody>
 </table>
@@ -1160,6 +1299,10 @@ tested for csrf vulnerability</td>
 <th class="row-header">Withings WS-30<br>com.withings.wiscale2</th>
 <td>investigate if account can be delete with spoofed information --&gt; account can't be deleted with stolen session id from unencrypted sensor device communication</td>
 </tr>
+<tr>
+<th class="row-header">iChoice S1<br>com.medm.ichoice.diary</th>
+<td>registered and researched web interface</td>
+</tr>
 </table>
 <table class="table">
 <caption><h1>av6_web_application</h1></caption>
@@ -1173,6 +1316,7 @@ tested for csrf vulnerability</td>
 <th class="rotate"><div><span>iChoice S1<br>com.medm.medmwt.diary</span></div></th>
 <th class="rotate"><div><span>Thomson TBS705<br>com.stabxtom.thomson</span></div></th>
 <th class="rotate"><div><span>Withings WS-30<br>com.withings.wiscale2</span></div></th>
+<th class="rotate"><div><span>iChoice S1<br>com.medm.ichoice.diary</span></div></th>
 </tr></thead>
 <tbody>
 <tr>
@@ -1679,6 +1823,7 @@ for password field and manual entries</p>
 <td>8.0</td>
 <td>0.0</td>
 <td>8.0</td>
+<td>None</td>
 </tr>
 </tbody>
 </table>

@@ -1,4 +1,4 @@
-"teststep","rating","desc","com.activ8rlives.mobile","com.fitbit.FitbitMobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2"
+"teststep","rating","desc","com.activ8rlives.mobile","com.fitbit.FitbitMobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2","com.medm.ichoice.diary"
 "av6_reg_data_input","informational","Specifies the data fields and types which are required as inputs","","","","","n/a",""
 "av6_xss","vulnerable: 1 / not vulnerable: 0","basic xss attacks on the web page with a select statement","0","0","0","0","n/a","0"
 "av6_pri_pol","no link or information: 1 / link available: 0","pirvacy poclicy linked and available","0","0","0","0","n/a","0"

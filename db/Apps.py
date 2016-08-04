@@ -49,9 +49,6 @@ class Apps():
         if self.path_to_icon is not None:
             data.append(self.path_to_icon)
             sql.append("path_to_icon='%s'")
-        if self.type is not None:
-            data.append(self.type)
-            sql.append("Type='%s'")
         if self.path_to_exports is not None:
             data.append(self.path_to_exports)
             sql.append("path_to_exports='%s'")

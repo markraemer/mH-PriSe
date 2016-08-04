@@ -30,7 +30,7 @@ def check_for_package(package):
             hostdb.url = hostname
             try:
                 rating = []
-                for endpoint in response['efrom webserver import SSLcheckerndpoints']:
+                for endpoint in response['endpoints']:
                     rating.append("{}:{}".format(endpoint['ipAddress'], endpoint['grade']))
                 hostdb.rating = ", ".join(rating)
             except KeyError:

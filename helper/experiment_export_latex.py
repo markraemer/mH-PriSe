@@ -18,7 +18,7 @@ config.read('config.prop')
 path = config.get('tools','path.doc.tabledata')
 
 whitelist = ["com.activ8rlives.mobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2"]
-devices = [1,2,5,6,9,10]
+devices = [1,2,5,6,9,10,17]
 
 # In this case, we will load templates off the filesystem.
 # This means we must construct a FileSystemLoader object.

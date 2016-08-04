@@ -1,3 +1,3 @@
-"teststep","rating","desc","com.activ8rlives.mobile","com.fitbit.FitbitMobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2"
+"teststep","rating","desc","com.activ8rlives.mobile","com.fitbit.FitbitMobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2","com.medm.ichoice.diary"
 "number of issues","","","1.0","1.0","0.0","1.0","0.0"
-"av4_data_leakage","no data leaked: 0 / complies with privacy policy: 1 / data leaked beyond privacy policy: 2","data leakage to third party services","1","0","1","0","1","0"
+"av4_data_leakage","no data leaked: 0 / complies with privacy policy: 1 / data leaked beyond privacy policy: 2","data leakage to third party services","1","0","1","0","1","0","0"

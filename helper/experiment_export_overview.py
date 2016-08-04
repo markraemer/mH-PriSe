@@ -18,7 +18,7 @@ config.read('config.prop')
 doc_folder = config.get("export","doc.folder")
 
 
-devices = [1,2,5,6,9,10]
+devices = [1,2,5,6,9,10,17]
 
 packages = ["com.activ8rlives.mobile", "com.hapiconnect",
             "com.medm.medmwt.diary", "com.stabxtom.thomson", "com.withings.wiscale2"]
