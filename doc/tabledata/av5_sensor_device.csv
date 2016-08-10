@@ -1,5 +1,0 @@
-"teststep","rating","desc","com.activ8rlives.mobile","com.fitbit.FitbitMobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2","com.medm.ichoice.diary"
-"av5_pairing_process","informational","pairing process between sensor and phone","","","","","","",""
-"number of issues","","","1.0","1.0","1.0","1.0","0.0","None","0.0"
-"av5_swfw_update","vulnerable: 1 / not vulnerable: 0","update cycle related issues","1","0","1","1","1","0","1"
-"av5_data_coll","informational","characteristics of data collected by the sensor","","","","","","",""

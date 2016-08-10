@@ -9,6 +9,8 @@ from db.Pripol import Pripol
 from db.AppPerm import AppPerm
 from db import ExperimentsOverview
 from db.Devices import Devices
+from db.URLSSL import URLSSL
+from db.Apps import Apps
 
 # initialize configuration parser
 import ConfigParser
@@ -17,7 +19,7 @@ config.read('config.prop')
 # get configuration parameter
 path = config.get('tools','path.doc.tabledata')
 
-whitelist = ["com.activ8rlives.mobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2"]
+whitelist = ["com.activ8rlives.mobile","com.fitbit.FitbitMobile", "com.hapiconnect", "com.medm.ichoice.diary", "com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2"]
 devices = [1,2,5,6,9,10,17]
 
 # In this case, we will load templates off the filesystem.
@@ -116,12 +118,12 @@ def experiment_overview_export():
             ratings = ExperimentsOverview.getRating(step[0])
             for rating in ratings:
                 if rating[2] in devices:
-                    body[step[0]].append(rating[0])
+                    body[step[0]].append(rating[0] + " -- " + rating[3])
 
         body['number of issues']=["",""]
         sums = ExperimentsOverview.getSumRatings(case[0])
         for sum in sums:
-            if sum[0] in whitelist:
+            if sum[1] in devices:
                 body['number of issues'].append(str(sum[2]))
 
         # generate csv file
@@ -138,12 +140,38 @@ def experiment_overview_export():
         # generate latex template
         generate_table(path + case[0] + ".tex", header, case[0])
 
+def web_server_analysis_export():
+    packages = Apps.getPackages()
+    devicenames = Devices.getDevicesNames(devices)
+    cases = ExperimentsOverview.getTestCases()
 
+    for package in packages:
+        if package not in whitelist:
+            continue
+        header = ["package", "rating"]
+        ratings = URLSSL.get_rating(package)
+        print ratings
+        body={}
+        for rating in ratings:
+            body[rating[0]] = []
+            body[rating[0]].append(rating[1])
+            # generate csv file
+        f = open(path + "web_" + package + ".csv", 'wt')
+        try:
+            writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(header)
+            for i in body.keys():
+                body[i].insert(0, i)
+                writer.writerow(body[i])
+        finally:
+            f.close()
 
 def do():
     permission()
 
     experiment_overview_export()
+
+    web_server_analysis_export()
 
     rows, keys = Certificates.getCerts()
     generate_table(path + "certificates.tex", keys, "certificates")

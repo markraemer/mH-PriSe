@@ -17,7 +17,7 @@ do
     DIGEST="`echo $MSG | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["body"]["digest"]'`"
     TS="`echo $MSG | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["body"]["date"]'`"
 
-    d="$TS${MACS[i]}${CHALLENGE[i]}"
+    d="${MACS[i]}:${CHALLENGE[i]}:$TS"
     echo $d > data
     echo "$DIGEST" > signature
 

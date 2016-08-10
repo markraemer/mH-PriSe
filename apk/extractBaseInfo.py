@@ -39,15 +39,16 @@ def apkInfo():
         app.id = apk[2]
         logger.info("%s analyzing manifest", app.package)
         # run android build tool aapt and write into temp file
-        f = open(RPDIR + "dummy_file", "w")
-        cmd = ["aapt", "dump", "badging", "'",apk[1], "'", ">", RPDIR + "dummy"]
+        f = open(RPDIR + "dummy", "w")
+        cmd = ["aapt", "dump", "badging", apk[1]]
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
-        logger.debug("%s, %s", cmd, out)
+        logger.debug("%s, %s, %s", cmd, "", err)
+        f.write(out)
         f.close()
 
         # read information from temp file
-        f = open(RPDIR + "dummy_file", "r")
+        f = open(RPDIR + "dummy", "r")
         for line in f:
             # print line
             p_versionname = re.compile(".*versionName='(.*?)'.*")

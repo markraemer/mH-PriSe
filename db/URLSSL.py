@@ -44,3 +44,11 @@ class URLSSL():
 
         logger.debug(query)
         cur.execute(sql, tuple(data))
+
+    @staticmethod
+    def get_rating(package):
+        sql = """SELECT distinct u.hostname, s.rating FROM urls u join urls_ssl s on u.hostname = s.url where u.package=%s;"""
+        cur.execute(sql,[package])
+        rows = cur.fetchall()
+        return rows
+

@@ -4,10 +4,10 @@ import re
 import base64
 import hashlib
 
-pwd = MD5.MD5Hash()
+pwd = MD5.new()
 print pwd.new("123A456").hexdigest()
 
-hash = MD5.MD5Hash()
+hash = MD5.new()
 print hash.new(pwd.new("AAAAAA").hexdigest()+"inf.hapi@gmail.com").hexdigest()
 
 
@@ -121,16 +121,20 @@ def create_self_signed_cert(cert_dir):
 
 
 
-hash = MD5.MD5Hash()
+hash = MD5.new()
 
-once = "00e04959-994e341e"
+once = "00e04956-d78742a9"
 secret = "tmfozZCeTcc9jm6R2Miv7ldqEHgFggvp"
-mac = "0024e435c734"
+mac = "00:24:e4:35:c7:34"
+
+# see .class public Lcom/withings/device/ws/DeviceSessionFactory
+# and password util for further information
+# <mac>:<secret>:<once>
 
 print hash.new("{}:{}:{}".format(mac,secret,once)).hexdigest()
 #b26e02358696be7bf57a3c6bf5987bf5
 
-pwd = MD5.MD5Hash()
+pwd = MD5.new()
 print pwd.new("AAAAAA").hexdigest()
 
 

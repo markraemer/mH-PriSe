@@ -36,7 +36,7 @@ def getTestCaseComments(test_case):
     return rows
 
 def getSumRatings(test_case):
-    sql = "select package, device, sum(rating) from experiment_overview where test_case=%s group by device order by device;"
+    sql = "select package, device, IFNULL(sum(rating),0) from experiment_overview where test_case=%s group by device,package order by device,package;"
     cur.execute(sql, [test_case])
     rows = cur.fetchall()
     return rows
