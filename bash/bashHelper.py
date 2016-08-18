@@ -40,3 +40,7 @@ def dump_tables():
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
 
+
+def open_log(context):
+    cmd = ["gnome-terminal","-e","\"tail","-f",context.log,"\""]
+    os.system(" ".join(cmd))

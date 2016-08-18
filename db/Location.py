@@ -64,3 +64,13 @@ class Location():
         cur.execute(sql, data)
         rows = cur.fetchall()
         return rows
+
+    @staticmethod
+    def getIP(ip):
+        sql = "SELECT concat_ws(', ', country_code, state, city, zip_code) FROM location where ip_address='%s';"
+        data = (ip)
+
+        logger.debug(sql % data)
+        cur.execute(sql % data)
+        rows = cur.fetchone()
+        return rows

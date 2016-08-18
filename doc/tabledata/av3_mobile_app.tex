@@ -1,0 +1,12 @@
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{1.5}
+\caption{}
+\centering
+\begin{tabularx}{\linewidth}{X|X|X|X|X|X|X|X|X|X}
+\bfseries teststep & \bfseries rating & \bfseries desc & \bfseries com.activ8rlives.mobile & \bfseries com.fitbit.FitbitMobile & \bfseries com.hapiconnect & \bfseries com.medm.medmwt.diary & \bfseries com.stabxtom.thomson & \bfseries com.withings.wiscale2 & \bfseries com.medm.ichoice.diary
+\DTLforeach{av3_mobile_app}{
+\teststep=teststep, \rating=rating, \desc=desc, \com.activ8rlives.mobile=com.activ8rlives.mobile, \com.fitbit.FitbitMobile=com.fitbit.FitbitMobile, \com.hapiconnect=com.hapiconnect, \com.medm.medmwt.diary=com.medm.medmwt.diary, \com.stabxtom.thomson=com.stabxtom.thomson, \com.withings.wiscale2=com.withings.wiscale2, \com.medm.ichoice.diary=com.medm.ichoice.diary}{
+\\ \hline% start new row
+\teststep & \rating & \desc & \com.activ8rlives.mobile & \com.fitbit.FitbitMobile & \com.hapiconnect & \com.medm.medmwt.diary & \com.stabxtom.thomson & \com.withings.wiscale2 & \com.medm.ichoice.diary}
+\end{tabularx}
+\end{table}

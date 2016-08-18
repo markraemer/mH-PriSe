@@ -1,0 +1,51 @@
+2016-08-15 11:11:01,790 - runner - INFO - Starting ...
+2016-08-15 11:11:01,790 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-15 11:14:48,831 - runner - INFO - ... finished
+2016-08-15 11:14:50,323 - runner - INFO - Starting ...
+2016-08-15 11:14:50,323 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-15 11:14:53,174 - runner - INFO - ... finished
+2016-08-15 11:15:29,774 - runner - INFO - Starting ...
+2016-08-15 11:15:29,774 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-15 11:15:41,872 - runner - INFO - started access point
+2016-08-15 11:15:53,022 - runner - INFO - ... finished
+2016-08-15 11:16:07,233 - runner - INFO - Starting ...
+2016-08-15 11:16:07,233 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-15 11:16:15,563 - runner - INFO - ... finished
+2016-08-15 11:18:52,343 - runner - INFO - Starting ...
+2016-08-15 11:18:52,344 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-15 11:21:19,883 - runner - INFO - Starting ...
+2016-08-15 11:21:19,883 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-15 11:21:32,354 - runner - INFO - 395 com.activ8rlives.mobile 2016-07-21 15:25:46 analyzing
+2016-08-15 11:21:32,354 - runner - DEBUG - 395 extracting IPs from pcap
+2016-08-15 11:21:32,440 - runner - DEBUG - tcpdump -r /media/exthdd/experiments/com.activ8rlives.mobile/av1_data_trans/2016-07-21_15:25:46/tshark.pcap -w /media/exthdd/experiments/com.activ8rlives.mobile/av1_data_trans/2016-07-21_15:25:46/tshark-filtered.pcap 'src 10.0.0.35 or dst 10.0.0.35'
+2016-08-15 11:21:32,487 - runner - DEBUG - tshark -r /media/exthdd/experiments/com.activ8rlives.mobile/av1_data_trans/2016-07-21_15:25:46/tshark-filtered.pcap -Y "tcp.flags==2" -T fields -e ip.dst |  sort |  uniq |  awk '{printf("%s\n",$1)}' > dummy.txt
+2016-08-15 11:21:35,753 - runner - INFO - ... finished
+2016-08-15 11:33:11,728 - runner - INFO - Starting ...
+2016-08-15 11:33:11,729 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-15 11:36:15,261 - runner - INFO - ... finished
+2016-08-15 11:36:17,593 - runner - INFO - Starting ...
+2016-08-15 11:36:17,594 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-15 11:36:32,695 - runner - INFO - ... finished
+2016-08-16 15:44:02,350 - runner - INFO - Starting ...
+2016-08-16 15:44:02,351 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-16 15:44:37,739 - runner - INFO - ... finished
+2016-08-16 15:44:50,134 - runner - INFO - Starting ...
+2016-08-16 15:44:50,134 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-16 16:16:33,053 - runner - INFO - ... finished
+2016-08-16 16:56:26,198 - runner - INFO - Starting ...
+2016-08-16 16:56:26,199 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-16 16:56:39,264 - runner - INFO - ... finished
+2016-08-16 16:59:27,804 - runner - INFO - Starting ...
+2016-08-16 16:59:27,804 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-16 16:59:57,716 - runner - INFO - 395 com.activ8rlives.mobile 2016-07-21 15:25:46 analyzing
+2016-08-16 16:59:57,717 - runner - DEBUG - 395 extracting URLs
+2016-08-16 16:59:57,717 - runner - DEBUG - mitmdump -q -ns "traffic/mitm_extractURLs.py com.activ8rlives.mobile av1_data_trans '2016-07-21 15:25:46'" -r "/media/exthdd/experiments/com.activ8rlives.mobile/av1_data_trans/2016-07-21_15:25:46/mitm.out" -w /dev/null
+2016-08-16 17:00:01,055 - runner - INFO - com.activ8rlives.mobile generating traffic map
+2016-08-16 17:16:52,147 - runner - INFO - ... finished
+2016-08-16 17:16:57,470 - runner - INFO - Starting ...
+2016-08-16 17:16:57,471 - runner - INFO - Log file is /home/martin/PyCharmProjects/mhealth-analysis/log.out
+2016-08-16 17:17:04,548 - runner - INFO - 395 com.activ8rlives.mobile 2016-07-21 15:25:46 analyzing
+2016-08-16 17:17:04,548 - runner - DEBUG - 395 extracting URLs
+2016-08-16 17:17:04,549 - runner - DEBUG - mitmdump -q -ns "traffic/mitm_extractURLs.py com.activ8rlives.mobile av1_data_trans '2016-07-21 15:25:46'" -r "/media/exthdd/experiments/com.activ8rlives.mobile/av1_data_trans/2016-07-21_15:25:46/mitm.out" -w /dev/null
+2016-08-16 17:17:07,940 - runner - INFO - com.activ8rlives.mobile generating traffic map
+2016-08-16 17:17:13,136 - runner - INFO - ... finished

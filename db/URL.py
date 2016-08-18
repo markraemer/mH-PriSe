@@ -71,3 +71,14 @@ class URL():
         logger.debug(query)
         rows = cur.fetchall()
         return [x[0] for x in rows]
+
+    @staticmethod
+    def getIps(package):
+        sql = "select distinct host from urls where package=%s"
+        data = [package]
+        cur.execute(sql,data)
+        query =  sql % tuple(data)
+
+        logger.debug(query)
+        rows = cur.fetchall()
+        return [x[0] for x in rows]

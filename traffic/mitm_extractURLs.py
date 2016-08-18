@@ -18,10 +18,11 @@ config = ConfigParser.RawConfigParser()
 config.read('config.prop')
 
 def start(ctx, argv):
-    global package, test_case, time
+    global package, test_case, time, payload_map
     package = argv[1]
     test_case = argv[2]
     time = argv[3]
+    payload_map = {}
 
     print package
 
@@ -54,6 +55,22 @@ def request(ctx, flow):
     url.time = time
     if 'host' in flow.request.headers:
         url.hostname = flow.request.headers['host'] # host name
-
     url.upsert()
+    if url.host not in payload_map.keys():
+        payload_map[url.host]=[]
+    payload_map[url.host].append(len(flow.request.content))
 
+def response(ctx, flow):
+    if flow.repsonse.host not in payload_map.keys():
+        payload_map[flow.repsonse.host]=[]
+    payload_map[flow.repsonse.host].append(len(flow.response.body))
+
+
+def done(ctx):
+    f = open('workfile.out', 'w')
+    for host in payload_map.keys():
+        sum = 0
+        for msg_len in payload_map[host]:
+            sum = sum + msg_len
+        f.write("{} {}\n".format(host,sum))
+    f.close()

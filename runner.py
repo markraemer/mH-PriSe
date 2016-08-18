@@ -1,19 +1,22 @@
 #!/usr/bin/python
-# MK Jul 2016
-# runner application file
-import os
+"""
+Copyright (C) 2016, Martin Kraemer. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the
+License is distributed on an "AS-IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+either express or implied. See the License for the specific language governing permissions
+and limitations under the License.
+"""
+
+
 import logging.config
-
-import curses
-
-logging.config.fileConfig('logging.conf')
-logger = logging.getLogger('runner')
-
-# to construct the menu
-from cursesmenu import *
-from cursesmenu.items import *
-
-from subprocess import call
+import os
+import ConfigParser
 
 from playstore import apps_companion,apps_tools
 from apk import extractBaseInfo, runMallodroid, signAnalysis, apkHelper, runEviCheck, runExplainDroid, checkObfuscation
@@ -24,27 +27,29 @@ from pick import pick
 from bash import bashHelper
 from webserver import SSLchecker
 
-import sys
-
-
-from db.Location import Location
-import requests
-
-os.system("taskset -p 0xff %d" % os.getpid())
-logger.info("Starting ...")
-
-import ConfigParser
+logging.config.fileConfig('logging.conf')
+logger = logging.getLogger('runner')
 
 config = ConfigParser.RawConfigParser()
 config.read('config.prop')
 
+os.system("taskset -p 0xff %d" % os.getpid())
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+logger.info("Starting ...")
+logger.info("Log file is {}/log.out".format(dir_path))
+
+# context object to pass parameters
 class runner:
     current_menu = "main"
     package = ""
+    device= ""
     action = ""
     android_sdk = ""
-
+    log = ""
 context = runner()
+
+context.log = dir_path + "/log.out"
 
 def change_package(dest_menu):
     context.package = experimentation.choosePackage()
@@ -74,9 +79,10 @@ menu_tree = {
             "5 - POST experiment analysis": (change_package, ['post']),  # should choose packge -> test case first
             "6 - export results": ('menu', ['export']),
             "7 - tools and helper": ('menu', ['tools']),
+            "8 - open log file": (bashHelper.open_log, [context]),
             "quit": None
         },
-        'title': "Main Menu",
+        'title': "Main Menu - see logs in {}/log.out".format(dir_path),
         'parent_menu': None
     },
     'static' : {
@@ -106,8 +112,8 @@ menu_tree = {
     },
     'post' : {
         'menu': {
-            "1 - extract URLs (requried for following)": (trafficAnalysis.for_rec_experiment,[context, True]),
-            "2 - create traffic map": None,
+            "1 - extract URLs": (trafficAnalysis.for_rec_experiment,[context, True]),
+            "2 - scan PCAP files": (trafficAnalysis.analysePCAP,[context]),
             "3 - check server SSL": (SSLchecker.do,[context]),
             "4 - show recording": ('menu', ['show']),
             "quit": None
@@ -152,9 +158,14 @@ menu_tree = {
 
 }
 (experiment_export_overview.do, []),
-import time
+
 
 def show_menu(startid='main'):
+    """
+    shows the menu on screen
+    :param startid: the id of the menu to start with (used to find parrent)
+    :return:
+    """
     context.current_menu = startid
     menu = menu_tree[startid]
     options = menu['menu'].keys()
@@ -178,14 +189,11 @@ def show_menu(startid='main'):
             func = globals()['show_menu']
         if menu['menu'][action][1] is not None:
             args = menu['menu'][action][1]
-            func(*args) # this will call the linked function
+            func(*args) # calling with arguments
         else:
-            func()  # this will call the linked function
+            func()  # calling without arguments
 
-
-
-
-
+# start the menu and loop
 while True:
     context.android_sdk = deviceHelper.android_version()
     show_menu(context.current_menu)

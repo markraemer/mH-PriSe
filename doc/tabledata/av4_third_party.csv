@@ -1,0 +1,4 @@
+"teststep","rating","desc","com.activ8rlives.mobile","com.fitbit.FitbitMobile","com.hapiconnect","com.medm.medmwt.diary","com.stabxtom.thomson","com.withings.wiscale2","com.medm.ichoice.diary"
+"number of issues","","","1.0","0.0","0.0","0.0","1.0","0.0","0.0"
+"av4_data_leakage","no data leaked: 0 / complies with privacy policy: 1 / data leaked beyond privacy policy: 2","data leakage to third party services","1 -- detailled data on the device is leaked to xamarin servers; this data can be used for fingerprinting and shouldn't be collected; there are other device identifiers that can be used /n pictures taken are uploaded to an image service and not to their own servers","0 -- no data being leaked so far","0 -- no data leakage apparent","0 -- no data leakage to third party on recor
+d","1 -- data is being leaked to advertising companies; data includes phone identifier information","0 -- no data being leaked","0 -- no leakage observed"
