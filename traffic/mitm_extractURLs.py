@@ -26,7 +26,7 @@ def start(ctx, argv):
 
     print package
 
-
+# deriving the location of the IP address host
 def getIpLocation(ip):
     loc = Location()
     loc.ip_address = ip
@@ -43,7 +43,7 @@ def getIpLocation(ip):
     loc.upsert()
     return jsondata['org']
 
-
+# extracting information from requests: host, url, time and other data
 def request(ctx, flow):
     url = URL()
     url.organization = getIpLocation(flow.request.host)
@@ -60,12 +60,14 @@ def request(ctx, flow):
         payload_map[url.host]=[]
     payload_map[url.host].append(len(flow.request.content))
 
+# extracting the payload size
+#TODO: can be further enhanced to provide more data for map generation
 def response(ctx, flow):
     if flow.repsonse.host not in payload_map.keys():
         payload_map[flow.repsonse.host]=[]
     payload_map[flow.repsonse.host].append(len(flow.response.body))
 
-
+# closing the file
 def done(ctx):
     f = open('workfile.out', 'w')
     for host in payload_map.keys():

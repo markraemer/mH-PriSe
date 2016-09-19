@@ -10,12 +10,6 @@ print pwd.new("123A456").hexdigest()
 hash = MD5.new()
 print hash.new(pwd.new("AAAAAA").hexdigest()+"inf.hapi@gmail.com").hexdigest()
 
-
-
-
-
-
-
 ###########
 # fitbit protocol engineering
 ###########

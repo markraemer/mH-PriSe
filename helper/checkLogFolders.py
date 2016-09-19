@@ -14,8 +14,6 @@ deviceId = config.get("dev","dev.adb.id")
 import os
 from db.Experiments import Experiments
 
-
-
 def doAll():
 
     experiments = Experiments.getExperimentLog()

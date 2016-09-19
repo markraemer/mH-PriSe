@@ -23,7 +23,7 @@ from apk import extractBaseInfo, runMallodroid, signAnalysis, apkHelper, runEviC
 from onDevice import runDrozer,addonDetector,deviceHelper
 from helper import checkLogFolders, experimentation, experiment_export_overview, experiment_export_latex
 from traffic import trafficAnalysis
-from pick import pick
+from pick import pick, Picker
 from bash import bashHelper
 from webserver import SSLchecker
 
@@ -47,6 +47,8 @@ class runner:
     action = ""
     android_sdk = ""
     log = ""
+    chg_pkg = False
+    chg_dev = False
 context = runner()
 
 context.log = dir_path + "/log.out"
@@ -54,6 +56,7 @@ context.log = dir_path + "/log.out"
 def change_package(dest_menu):
     context.package = experimentation.choosePackage()
     context.current_menu = dest_menu
+
 
 # using curses-menu by Paul Barrett
 # https://github.com/pmbarrett314/curses-menu
@@ -75,8 +78,8 @@ menu_tree = {
             "1 - toggle hotspot": (bashHelper.toggleHostpot, None),
             "2 - PREPARE analysis": ('menu', ['prepare']),
             "3 - STATIC analysis": ('menu', ['static']),
-            "4 - DYNAMIC analysis": (change_package, ['dynamic']), # should choose package first
-            "5 - POST experiment analysis": (change_package, ['post']),  # should choose packge -> test case first
+            "4 - DYNAMIC analysis": ('menu', ['dynamic']), # should choose package first
+            "5 - POST experiment analysis": ('menu', ['post']),  # should choose packge -> test case first
             "6 - export results": ('menu', ['export']),
             "7 - tools and helper": ('menu', ['tools']),
             "8 - open log file": (bashHelper.open_log, [context]),
@@ -157,8 +160,16 @@ menu_tree = {
 
 
 }
-(experiment_export_overview.do, []),
 
+
+# helper to set flags for device or package change
+def choose_package(args):
+    context.chg_pkg = True
+    return "pass", 0
+
+def choose_device(args):
+    context.chg_dev = True
+    return "pass", 0
 
 def show_menu(startid='main'):
     """
@@ -166,17 +177,41 @@ def show_menu(startid='main'):
     :param startid: the id of the menu to start with (used to find parrent)
     :return:
     """
+
+    # check if package or device are to be changed
+    # just working around stacking curses menus
+    if context.chg_pkg:
+        context.package = experimentation.choosePackage()
+        context.chg_pkg = False
+        return
+    if context.chg_dev:
+        context.device = experimentation.chooseDevice(context.package)
+        context.chg_dev = False
+
+
     context.current_menu = startid
     menu = menu_tree[startid]
     options = menu['menu'].keys()
+
     options.sort()
+
     if context.package:
-        subtitle = context.package
+        subtitle = "Package: {}, Device: {}".format(context.package, context.device)
     else:
         subtitle = ""
-    title = "{} \n {}".format(menu['title'], subtitle)
-    action, idx = pick(options, title)
+
+    hotkeys = "Press 'p' to change the package, 'd' to change the device"
+    title = "{}\n{}\n{}".format(menu['title'], hotkeys, subtitle)
+    picker = Picker(options=options,title=title)
+    picker.register_custom_handler(ord('p'), choose_package)
+    picker.register_custom_handler(ord('d'), choose_device)
+    action, idx = picker.start()
+
     context.action = action
+    if action == "pass":
+        # used to change package or device
+        # will simply do nothing and reload the menu
+        return
     if action == "quit":
         if menu['parent_menu'] != None:
             show_menu(menu['parent_menu'])

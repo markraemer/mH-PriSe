@@ -24,10 +24,15 @@ evipolicy = config.get('tools', 'evi.script.file')
 path = config.get('apps', 'apps.fs.dir')
 
 
-# ////////////////////////////
+
 
 def evicheck(appslist):
-
+    """
+    runs the EviCheck tool on a list of apps and stores results
+    as log files and database entries
+    :param appslist:
+    :return:
+    """
 
     p_result = re.compile(".*Policy valid!.*")
 
@@ -71,11 +76,16 @@ def evicheck(appslist):
                 logger.info("%s is not valid", app.package)
             malware.insert()
 
+# just a helper function
 def chunkify(lst,n):
     return [ lst[i::n] for i in xrange(n) ]
 
 
 def do():
+    """
+    runs EviCheck on multiple threads
+    :return:
+    """
     # get all apks which are linked in the database
     # will come with [0] package [1] path_to_apk
     appsList = Apps().getAllApps()
@@ -86,8 +96,6 @@ def do():
         logger.info("starting mallodroid thread %s", p)
         threads += [p]
         p.start()
-
-
 
     for t in threads:
         t.join()

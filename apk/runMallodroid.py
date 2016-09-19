@@ -17,6 +17,7 @@ from multiprocessing import Process
 
 
 # this is based on mallodroid coding and simplified
+# running mallodroid in multiple threads
 def runMallodroid(app):
     assert isinstance(app, Apps), "app is not type Apps: %r" % app
     logger.info("%s running Mallodroid ", app.package)
@@ -141,8 +142,6 @@ def do():
         logger.info("starting mallodroid thread %s", p)
         threads += [p]
         p.start()
-
-
 
     for t in threads:
         t.join()

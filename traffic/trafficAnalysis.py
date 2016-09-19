@@ -37,7 +37,10 @@ def analysePCAP(context):
             return
     else:
         package = context.package
-    device = chooseDevice(package)
+    if not context.device:
+        device = chooseDevice(package)
+    else:
+        device = context.device
     record, index = select_recorded_experiment(package, device)
     print record
     if record:
@@ -140,6 +143,11 @@ def generate_map(output, lats=[], lons=[], wesn=None):
     plt.close()
 
 def do(createMap=False):
+    """
+    creates maps for all recorded experiments
+    :param createMap:
+    :return:
+    """
     experimentLog = Experiments.getExperimentLog()
     for log in experimentLog:
         exp = Experiments()
@@ -154,13 +162,22 @@ def do(createMap=False):
             prep_generate_map(exp)
 
 def for_rec_experiment(context, createMap=False):
+    """
+    allows to select map to generate from list of experiments
+    :param context:
+    :param createMap:
+    :return:
+    """
     if not context.package:
         package = choosePackage()
         if package == "quit":
             return
     else:
         package = context.package
-    device = chooseDevice(package)
+    if not context.device:
+        device = chooseDevice(package)
+    else:
+        device = context.device
     record, index = select_recorded_experiment(package,device)
     print record
     if record:

@@ -24,9 +24,13 @@ from onDevice import deviceHelper
 
 
 
-# extracts smali code
 
 def apkToSmali(context):
+    """
+    extracts smali code form apk file; smali code to be used for further analysis
+    :param context:
+    :return:
+    """
     app = Apps.getApp(context.package)
     logger.info("%s starting dissambly to smali", app.package)
 
@@ -42,6 +46,10 @@ def apkToSmali(context):
 
 
 def allApksToSmali():
+    """
+    extracting smali code for all apk files
+    :return:
+    """
 
     # get all apks which are linked in the database
     # will come with [0] package [1] path_to_apk
@@ -55,6 +63,11 @@ def allApksToSmali():
         allApksToSmali()
 
 def assemble_and_install(context):
+    """
+    reassemble the apk file and install it to the device
+    :param context:
+    :return:
+    """
     app = Apps.getApp(context.package)
     logger.info("%s starting reassembling to apk", app.package)
 
@@ -101,10 +114,12 @@ def assemble_and_install(context):
     deviceHelper.installapk(app)
 
 
-
-# unpacks to jar file
-
 def apkTorJar(context):
+    """
+    unpack apk file to jar; can be loaded with JD GUI
+    :param context:
+    :return:
+    """
     app = Apps.getApp(context.package)
     logger.info("%s starting dex to jar", app.package)
     cmd = ["d2j-dex2jar", "-o", path + app.package + "/" + app.package + "-dex2jar.jar", app.path_to_apk, ]
@@ -116,8 +131,12 @@ def apkTorJar(context):
     else:
         logger.debug(out)
 
-def allApksToJar():
 
+def allApksToJar():
+    """
+    extracts all apk files to jar
+    :return:
+    """
     # get all apks which are linked in the database
     # will come with [0] package [1] path_to_apk
     appsList = Apps().getAllApps()
@@ -130,8 +149,12 @@ def allApksToJar():
         apkTorJar(app)
 
 
-# open jd gui
 def openJarInJdGui(context):
+    """
+    opens Jar in JD GUI
+    :param context:
+    :return:
+    """
     logger.info("%s opening jar in JD Gui", context.package)
     app = Apps.getApp(context.package)
     cmd = [jdgui, path + app.package + "/" + app.package + "-dex2jar.jar"]

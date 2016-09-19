@@ -257,7 +257,6 @@ def choosePackage():
     package, index = pick(packages, title)
     return package
 
-
 def chooseDevice(package):
     title = 'choose device: '
     devices = Devices.getDevices(package)
@@ -271,7 +270,10 @@ def show_traces(context):
         package = choosePackage()
     else:
         package = context.package
-    device = chooseDevice(package)
+    if not context.device:
+        device = chooseDevice(package)
+    else:
+        device = context.device
     if package != "quit":
         record = choose_test_case(package, device)
         if record != "quit":
@@ -284,7 +286,10 @@ def open_log_folder(context):
         package = choosePackage()
     else:
         package = context.package
-    device = chooseDevice(package)
+    if not context.device:
+        device = chooseDevice(package)
+    else:
+        device = context.device
     if package != "quit":
         record = choose_test_case(package,device)
         if record != "quit":
@@ -295,9 +300,14 @@ def open_log_folder(context):
 def do(action, context=None):
     if not context.package:
         package = choosePackage()
+        context.package = package
     else:
         package = context.package
-    device = chooseDevice(package)
+    if not context.device:
+        device = chooseDevice(package)
+        context.device = device
+    else:
+        device = context.device
     if package != "quit":
         if action == actions[0]:
             case = select_test_case()

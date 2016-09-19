@@ -21,10 +21,12 @@ expdroidscript = config.get('tools', 'expdroid.script.file')
 path = config.get('apps', 'apps.fs.dir')
 
 
-# ////////////////////////////
-
 def explaindroid(appsList):
-
+    """
+    running Explain Droid on a list of apps
+    :param appsList:
+    :return:
+    """
     p_result = re.compile(".*LABEL: BENIGN.*")
 
     for apk in appsList:
@@ -73,6 +75,10 @@ def chunkify(lst,n):
 
 
 def do():
+    """
+    splitting the list of apps to analyze and start in multiple threads
+    :return:
+    """
     # get all apks which are linked in the database
     # will come with [0] package [1] path_to_apk
     appsList = Apps().getAllApps()
@@ -83,8 +89,6 @@ def do():
         logger.info("starting mallodroid thread %s", p)
         threads += [p]
         p.start()
-
-
 
     for t in threads:
         t.join()
